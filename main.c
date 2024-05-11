@@ -9,10 +9,18 @@
 #include "button.h"
 
 typedef enum {
-	IDLE,
-	RUNNING,
-	PAUSED
+    STOPWATCH_IDLE,
+    STOPWATCH_RUNNING,
+    STOPWATCH_PAUSED
 } StopwatchState;
+
+typedef enum {
+    CLOCK_IDLE,
+    CLOCK_RUNNING,
+	/*Note : Stops counting time while you're changing the seconds and minutes */
+	CHANGE_SEC,
+	CHANGE_MIN
+} Min2Sec_ClockState;
 
 typedef struct{
 	uint8_t display_count;
@@ -21,7 +29,15 @@ typedef struct{
 	StopwatchState state;
 } Stopwatch;
 
+typedef struct{
+	uint8_t display_count;
+	uint16_t ms_count;
+	uint16_t sec_count;
+	Min2Sec_ClockState state;
+} Min2Sec_Clock;
+
 volatile Stopwatch *main_stopwatch_ptr;
+volatile Min2Sec_Clock *main_min2secClock_ptr;
 
 void stop_watch_state(Stopwatch* pStopwatch);
 void fnd_display(Stopwatch* pStopwatch);
@@ -43,7 +59,7 @@ ISR(TIMER0_OVF_vect){
 	/* 인터럽트 루틴을 가능한 짧게 짜라, ms_count만 증가시키고 빠져나오게함 */
 	TCNT0=6; // 6 ~ 256개의 pulse카운트 --> 1ms를 맞춰주기 위해서 TCNT0을 6으로 설정
 	main_stopwatch_ptr->display_count++;
-	if(main_stopwatch_ptr->state == RUNNING){
+	if(main_stopwatch_ptr->state == STOPWATCH_RUNNING){
 		main_stopwatch_ptr->ms_count++;
 	}
 }
@@ -55,7 +71,7 @@ int main(void)
 	// ms_count = 0;
 	// sec_count = 0;
 	// state = IDLE
-    Stopwatch stopwatch = {0,0,0,IDLE};
+    Stopwatch stopwatch = {0,0,0,STOPWATCH_IDLE};
 	main_stopwatch_ptr = &stopwatch;
 	
 	init_fnd();
@@ -71,13 +87,13 @@ int main(void)
 
 void stop_watch_state(Stopwatch* pStopwatch){
 	switch(pStopwatch->state){
-		case IDLE:
+		case STOPWATCH_IDLE:
 			pStopwatch->ms_count = 0;
 			pStopwatch->sec_count = 0;
 			FND_DIGIT_PORT = 0xff;
-			if(get_button(BUTTON1_PIN,BUTTON1)) pStopwatch->state = RUNNING;
+			if(get_button(BUTTON1_PIN,BUTTON1)) pStopwatch->state = STOPWATCH_RUNNING;
 			break;
-		case RUNNING:
+		case STOPWATCH_RUNNING:
 			if(pStopwatch->ms_count >= 1000){
 				pStopwatch->ms_count = 0;
 				pStopwatch->sec_count++;
@@ -86,12 +102,12 @@ void stop_watch_state(Stopwatch* pStopwatch){
 					main_stopwatch_ptr->sec_count = 0;
 				}
 			}
-			if(get_button(BUTTON1_PIN,BUTTON1)) pStopwatch->state = PAUSED;
-			else if(get_button(BUTTON2_PIN,BUTTON2)) pStopwatch->state = IDLE;
+			if(get_button(BUTTON1_PIN,BUTTON1)) pStopwatch->state = STOPWATCH_PAUSED;
+			else if(get_button(BUTTON2_PIN,BUTTON2)) pStopwatch->state = STOPWATCH_IDLE;
 			break;
-		case PAUSED:
-			if(get_button(BUTTON1_PIN,BUTTON1)) pStopwatch->state = RUNNING;
-			else if(get_button(BUTTON2_PIN,BUTTON2)) pStopwatch->state = IDLE;
+		case STOPWATCH_PAUSED:
+			if(get_button(BUTTON1_PIN,BUTTON1)) pStopwatch->state = STOPWATCH_RUNNING;
+			else if(get_button(BUTTON2_PIN,BUTTON2)) pStopwatch->state = STOPWATCH_IDLE;
 			break;
 	}
 }
@@ -99,7 +115,7 @@ void stop_watch_state(Stopwatch* pStopwatch){
 
 // display the FND
 void fnd_display(Stopwatch* pStopwatch){
-	if(pStopwatch->state != IDLE){
+	if(pStopwatch->state != STOPWATCH_IDLE){
 		// 0을 찍을려면 g빼고 1로 16진수값 3F입니다, b는 0011_1111(common anode)
 		// common cathode는 1100_0000이고, 16진수로 C0
 		//0    1     2     3    4    5    6    7    8    9		dp(10번방)
@@ -112,15 +128,15 @@ void fnd_display(Stopwatch* pStopwatch){
 			FND_DIGIT_PORT = ~0b10000000; // cathode
 			FND_DATA_PORT = fnd_font[pStopwatch->ms_count/100%10];
 			break;
-		case 1: // 10단위 : 1s마다(0~9)
+		case 2: // 10단위 : 1s마다(0~9)
 			FND_DIGIT_PORT = ~0b01000000; // cathode
 			FND_DATA_PORT =fnd_font[pStopwatch->sec_count%10];
 			break;
-		case 2: // 100단위 : 10단위s마다(0~6)
+		case 4: // 100단위 : 10단위s마다(0~6)
 			FND_DIGIT_PORT = ~0b00100000; // cathode
 			FND_DATA_PORT = fnd_font[pStopwatch->sec_count/10%6];
 			break;
-		case 3: // 1000단위 : 분단위=60초마다(0~9)
+		case 6: // 1000단위 : 분단위=60초마다(0~9)
 			FND_DIGIT_PORT = ~0b00010000; // cathode
 			FND_DATA_PORT = fnd_font[pStopwatch->sec_count/60%10];
 			break;

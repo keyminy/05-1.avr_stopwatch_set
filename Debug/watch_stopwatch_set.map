@@ -12,6 +12,8 @@ c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/..
 Allocating common symbols
 Common symbol       size              file
 
+main_min2secClock_ptr
+                    0x2               main.o
 main_stopwatch_ptr  0x2               main.o
 
 Discarded input sections
@@ -385,27 +387,28 @@ END GROUP
                 0x0080010c                _edata = .
                 0x0080010c                PROVIDE (__data_end, .)
 
-.bss            0x0080010c        0x8
+.bss            0x0080010c        0xa
                 0x0080010c                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
  .bss.previous_button_status
                 0x0080010c        0x4 button.o
                 0x0080010c                previous_button_status
- .bss.digit_position.2111
+ .bss.digit_position.2124
                 0x00800110        0x2 main.o
  *(COMMON)
- COMMON         0x00800112        0x2 main.o
-                0x00800112                main_stopwatch_ptr
-                0x00800114                PROVIDE (__bss_end, .)
+ COMMON         0x00800112        0x4 main.o
+                0x00800112                main_min2secClock_ptr
+                0x00800114                main_stopwatch_ptr
+                0x00800116                PROVIDE (__bss_end, .)
                 0x000004ca                __data_load_start = LOADADDR (.data)
                 0x000004d6                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00800114        0x0
+.noinit         0x00800116        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x00800114                _end = .
+                0x00800116                _end = .
                 [!provide]                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
@@ -484,12 +487,12 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0xd3c
+.debug_info     0x00000000      0xdd5
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x780 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega128/avr51/crtatmega128.o
  .debug_info    0x00000780      0x1b4 button.o
  .debug_info    0x00000934       0x83 fnd.o
- .debug_info    0x000009b7      0x385 main.o
+ .debug_info    0x000009b7      0x41e main.o
 
 .debug_abbrev   0x00000000      0xa2f
  *(.debug_abbrev)
@@ -498,12 +501,12 @@ END GROUP
  .debug_abbrev  0x0000084c       0x51 fnd.o
  .debug_abbrev  0x0000089d      0x192 main.o
 
-.debug_line     0x00000000      0x5dd
+.debug_line     0x00000000      0x5de
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x16a C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega128/avr51/crtatmega128.o
  .debug_line    0x0000016a      0x17f button.o
  .debug_line    0x000002e9       0xaa fnd.o
- .debug_line    0x00000393      0x24a main.o
+ .debug_line    0x00000393      0x24b main.o
 
 .debug_frame    0x00000000      0x108
  *(.debug_frame)
@@ -511,15 +514,15 @@ END GROUP
  .debug_frame   0x00000034       0x24 fnd.o
  .debug_frame   0x00000058       0xb0 main.o
 
-.debug_str      0x00000000      0x55f
+.debug_str      0x00000000      0x5e3
  *(.debug_str)
  .debug_str     0x00000000      0x27d C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega128/avr51/crtatmega128.o
  .debug_str     0x0000027d      0x1fb button.o
                                 0x22f (size before relaxing)
  .debug_str     0x00000478       0x14 fnd.o
                                 0x18c (size before relaxing)
- .debug_str     0x0000048c       0xd3 main.o
-                                0x289 (size before relaxing)
+ .debug_str     0x0000048c      0x157 main.o
+                                0x30d (size before relaxing)
 
 .debug_loc      0x00000000      0x27d
  *(.debug_loc)
