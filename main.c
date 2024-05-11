@@ -34,6 +34,8 @@ typedef struct{
 	uint16_t ms_count;
 	uint16_t sec_count;
 	Min2Sec_ClockState state;
+	uint8_t blink_visible;
+	uint16_t ms_blinking;
 } Min2Sec_Clock;
 
 volatile Stopwatch *main_stopwatch_ptr;
@@ -66,11 +68,18 @@ ISR(TIMER0_OVF_vect){
 	if(main_min2secClock_ptr->state == CLOCK_RUNNING){
 		main_min2secClock_ptr->ms_count++;
 	}
+	if(main_min2secClock_ptr->state == CHANGE_MIN || main_min2secClock_ptr->state == CHANGE_SEC){
+		main_min2secClock_ptr->ms_blinking++;
+	}
 }
 
 
 int main(void)
 {
+	//set up led register
+	DDRA = 0xff; //출력모드 설정
+	PORTA = 0x00; // led all off
+	
 	/* initialize stopwatch */
 	// display_count = 0;
 	// ms_count = 0;
@@ -84,7 +93,9 @@ int main(void)
 	// ms_count = 0;
 	// sec_count = 0;
 	// state = CLOCK_IDLE
-	Min2Sec_Clock min2sec_clock = {0,0,0,CLOCK_IDLE};
+	// blink_visible = 0
+	// ms_blinking = 0
+	Min2Sec_Clock min2sec_clock = {0,0,0,CLOCK_IDLE,0,0};
 	main_min2secClock_ptr = &min2sec_clock;
 	
 	init_fnd();
@@ -107,22 +118,63 @@ void min2sec_clock_state(Stopwatch* pStopwatch, Min2Sec_Clock* pMin2sec_clock){
 				if(pMin2sec_clock->ms_count >= 1000){
 					pMin2sec_clock->ms_count = 0;
 					pMin2sec_clock->sec_count++;
-					if(main_min2secClock_ptr->sec_count == 600){
-						// 10분이되면 초기화
+					
+					 PORTA ^= (1 << 1); // Toggle the state of the LED
+					
+					if(main_min2secClock_ptr->sec_count == 3600){
+						//60 분이되면 초기화
 						main_min2secClock_ptr->sec_count = 0;
 					}
 				}
 				// Back to stopwatch mode
 				if(get_button(BUTTON1_PIN,BUTTON1)) {
+					PORTA = 0x00; // LED off
 					pStopwatch->state = STOPWATCH_RUNNING;
 					pMin2sec_clock->state = CLOCK_IDLE;
 				}
 				// change second
-				else if(get_button(BUTTON2_PIN,BUTTON2)) pMin2sec_clock->state = CHANGE_SEC;
+				else if(get_button(BUTTON2_PIN,BUTTON2)) {
+					PORTA = 0x00; // LED off
+					pMin2sec_clock->state = CHANGE_SEC;
+				}
 				break;
 			case CHANGE_SEC:
+				// Blinks the digits of second and toggle led per 1second.
+				if(pMin2sec_clock->ms_blinking >= 1000){
+					pMin2sec_clock->ms_blinking = 0;
+					//  Blinks the digits of second
+					pMin2sec_clock->blink_visible = !pMin2sec_clock->blink_visible;
+					PORTA ^= (1 << 2); // Toggle the state of the LED	
+				}
+				if(get_button(BUTTON1_PIN,BUTTON1)) {
+					// Back to CLOCK_RUNNING
+					PORTA = 0x00; // LED off
+					pMin2sec_clock->state = CLOCK_RUNNING;
+				}else if(get_button(BUTTON2_PIN,BUTTON2)){
+					PORTA = 0x00; // LED off
+					pMin2sec_clock->state = CHANGE_MIN;	
+				}else if(get_button(BUTTON3_PIN,BUTTON3)){
+					// Increase seconds
+					pMin2sec_clock->sec_count++;
+					// Also blinks the digits of second
+				}
 				break;
 			case CHANGE_MIN:
+				// Blinks the digits of minutes and toggle led per 1second.
+				if(pMin2sec_clock->ms_blinking >= 1000){
+					pMin2sec_clock->ms_blinking = 0;
+					// Blinks the digits of minutes
+					pMin2sec_clock->blink_visible = !pMin2sec_clock->blink_visible;
+					PORTA ^= (1 << 3); // Toggle the state of the LED
+				}
+				if(get_button(BUTTON2_PIN,BUTTON2)){
+					PORTA = 0x00; // LED off
+					pMin2sec_clock->state = CHANGE_SEC;
+				}else if(get_button(BUTTON3_PIN,BUTTON3)){
+					// Increase minutes
+					pMin2sec_clock->sec_count += 60;
+					// Also blinks the digits of minutes
+				}
 				break;
 		}
 	}
@@ -144,6 +196,7 @@ void stop_watch_state(Stopwatch* pStopwatch, Min2Sec_Clock* pMin2sec_clock){
 			if(pStopwatch->ms_count >= 1000){
 				pStopwatch->ms_count = 0;
 				pStopwatch->sec_count++;
+				PORTA ^= (1 << 0); // Toggle the state of the LED
 				if(main_stopwatch_ptr->sec_count == 600){
 					// 10분이되면 초기화
 					main_stopwatch_ptr->sec_count = 0;
@@ -151,6 +204,7 @@ void stop_watch_state(Stopwatch* pStopwatch, Min2Sec_Clock* pMin2sec_clock){
 			}
 			// Switch to Min2Sec_Clock
 			if(get_button(BUTTON1_PIN,BUTTON1)) {
+				PORTA = 0x00;
 				pStopwatch->state = STOPWATCH_IDLE;
 				pMin2sec_clock->state = CLOCK_RUNNING;
 			}
@@ -159,11 +213,13 @@ void stop_watch_state(Stopwatch* pStopwatch, Min2Sec_Clock* pMin2sec_clock){
 			case STOPWATCH_PAUSED:
 			// Switch to Min2Sec_Clock
 			if(get_button(BUTTON1_PIN,BUTTON1)) {
+				PORTA = 0x00;
 				pStopwatch->state = STOPWATCH_IDLE;
 				pMin2sec_clock->state = CLOCK_RUNNING;
 			}
 			else if(get_button(BUTTON2_PIN,BUTTON2)) pStopwatch->state = STOPWATCH_RUNNING;
 			else if(get_button(BUTTON3_PIN,BUTTON3)) {
+				PORTA = 0x00;
 				pStopwatch->state = STOPWATCH_IDLE;
 				pMin2sec_clock->state = STOPWATCH_IDLE;
 			};
@@ -211,20 +267,32 @@ void fnd_display(Stopwatch* pStopwatch, Min2Sec_Clock* pMin2sec_clock){
 		static int digit_position = 0; // 자리수 선택  변수 0~3 : 0,1,2,3
 
 		switch(digit_position){
-			case 0: // 1단위 : 1s마다(0~9)
+			case 0: // 1단위 : 1seconds마다(0~9)
 			FND_DIGIT_PORT = ~0b10000000; // cathode
+			if(pMin2sec_clock->blink_visible && pMin2sec_clock->state == CHANGE_SEC){
+				FND_DIGIT_PORT = ~0b00000000; // cathode
+			}
 			FND_DATA_PORT = fnd_font[pMin2sec_clock->sec_count%10];
 			break;
-			case 2: // 10단위 : 10단위s마다(0~6)
+			case 2: // 10단위 : 10단위 seconds마다(0~6)
 			FND_DIGIT_PORT = ~0b01000000; // cathode
+			if(pMin2sec_clock->blink_visible && pMin2sec_clock->state == CHANGE_SEC){
+				FND_DIGIT_PORT = ~0b00000000; // cathode
+			}
 			FND_DATA_PORT =fnd_font[pMin2sec_clock->sec_count/10%6];
 			break;
-			case 4: // 100단위 : 분단위=60초마다(0~9)
+			case 4: // 100단위 : minutes단위=60초마다(0~9)
 			FND_DIGIT_PORT = ~0b00100000; // cathode
+			if(pMin2sec_clock->blink_visible && pMin2sec_clock->state == CHANGE_MIN){
+				FND_DIGIT_PORT = ~0b00000000; // cathode
+			}
 			FND_DATA_PORT = fnd_font[pMin2sec_clock->sec_count/60%10];
 			break;
-			case 6: // 1000단위 : 10단위분마다=600초마다(0~6)
+			case 6: // 1000단위 : 10단위 minutes마다=600초마다(0~6)
 			FND_DIGIT_PORT = ~0b00010000; // cathode
+			if(pMin2sec_clock->blink_visible && pMin2sec_clock->state == CHANGE_MIN){
+				FND_DIGIT_PORT = ~0b00000000; // cathode
+			}
 			FND_DATA_PORT = fnd_font[pMin2sec_clock->sec_count/600%6];
 			break;
 		}
