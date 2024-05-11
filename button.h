@@ -11,6 +11,7 @@
 
 #include <avr/io.h> // PORTA DDRA 등의 symbom이 정의 되어 있다.
 
+
 #define BUTTON_DDR  DDRD
 #define BUTTON_PIN  PIND // PORTD를 read하는 register, 전압5v를 읽으면 1, 0v를 읽으면 0
 

@@ -1,5 +1,8 @@
 ﻿#include "button.h"
 
+#define F_CPU 16000000UL
+#include <util/delay.h> // _delay_ms 등의 함수가 들어있다.
+
 void init_button(void);
 int get_button(int button_pin, int button_number);
 
