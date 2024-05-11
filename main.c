@@ -221,7 +221,7 @@ void stop_watch_state(Stopwatch* pStopwatch, Min2Sec_Clock* pMin2sec_clock){
 			else if(get_button(BUTTON3_PIN,BUTTON3)) {
 				PORTA = 0x00;
 				pStopwatch->state = STOPWATCH_IDLE;
-				pMin2sec_clock->state = STOPWATCH_IDLE;
+				pMin2sec_clock->state = CLOCK_IDLE;
 			};
 			break;
 		}
