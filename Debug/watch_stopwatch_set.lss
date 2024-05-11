@@ -3,31 +3,31 @@ watch_stopwatch_set.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         0000000c  00800100  000004ca  0000055e  2**0
+  0 .data         0000000c  00800100  000007b6  0000084a  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000004ca  00000000  00000000  00000094  2**1
+  1 .text         000007b6  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          0000000a  0080010c  0080010c  0000056a  2**0
+  2 .bss          0000000c  0080010c  0080010c  00000856  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  0000056a  2**0
+  3 .comment      00000030  00000000  00000000  00000856  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000059c  2**2
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000888  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000088  00000000  00000000  000005d8  2**0
+  5 .debug_aranges 00000090  00000000  00000000  000008c4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00000dd5  00000000  00000000  00000660  2**0
+  6 .debug_info   00000f26  00000000  00000000  00000954  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000a2f  00000000  00000000  00001435  2**0
+  7 .debug_abbrev 00000a2f  00000000  00000000  0000187a  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000005de  00000000  00000000  00001e64  2**0
+  8 .debug_line   000006e9  00000000  00000000  000022a9  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000108  00000000  00000000  00002444  2**2
+  9 .debug_frame  00000140  00000000  00000000  00002994  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    000005e3  00000000  00000000  0000254c  2**0
+ 10 .debug_str    00000614  00000000  00000000  00002ad4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    0000027d  00000000  00000000  00002b2f  2**0
+ 11 .debug_loc    00000439  00000000  00000000  000030e8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000058  00000000  00000000  00002dac  2**0
+ 12 .debug_ranges 00000060  00000000  00000000  00003521  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -116,8 +116,8 @@ Disassembly of section .text:
   98:	11 e0       	ldi	r17, 0x01	; 1
   9a:	a0 e0       	ldi	r26, 0x00	; 0
   9c:	b1 e0       	ldi	r27, 0x01	; 1
-  9e:	ea ec       	ldi	r30, 0xCA	; 202
-  a0:	f4 e0       	ldi	r31, 0x04	; 4
+  9e:	e6 eb       	ldi	r30, 0xB6	; 182
+  a0:	f7 e0       	ldi	r31, 0x07	; 7
   a2:	00 e0       	ldi	r16, 0x00	; 0
   a4:	0b bf       	out	0x3b, r16	; 59
   a6:	02 c0       	rjmp	.+4      	; 0xac <__do_copy_data+0x14>
@@ -137,11 +137,11 @@ Disassembly of section .text:
   ba:	1d 92       	st	X+, r1
 
 000000bc <.do_clear_bss_start>:
-  bc:	a6 31       	cpi	r26, 0x16	; 22
+  bc:	a8 31       	cpi	r26, 0x18	; 24
   be:	b2 07       	cpc	r27, r18
   c0:	e1 f7       	brne	.-8      	; 0xba <.do_clear_bss_loop>
-  c2:	d6 d1       	rcall	.+940    	; 0x470 <main>
-  c4:	00 c2       	rjmp	.+1024   	; 0x4c6 <_exit>
+  c2:	33 d3       	rcall	.+1638   	; 0x72a <main>
+  c4:	76 c3       	rjmp	.+1772   	; 0x7b2 <_exit>
 
 000000c6 <__bad_interrupt>:
   c6:	9c cf       	rjmp	.-200    	; 0x0 <__vectors>
@@ -274,8 +274,8 @@ void init_fnd(void){
  164:	08 95       	ret
 
 00000166 <init_timer0>:
+void fnd_display(Stopwatch* pStopwatch, Min2Sec_Clock* pMin2sec_clock);
 void init_timer0();
-
 
 //timer0를 초기화 한다.
 void init_timer0(){
@@ -316,505 +316,952 @@ ISR(TIMER0_OVF_vect){
  18e:	86 e0       	ldi	r24, 0x06	; 6
  190:	82 bf       	out	0x32, r24	; 50
 	main_stopwatch_ptr->display_count++;
- 192:	e0 91 14 01 	lds	r30, 0x0114	; 0x800114 <main_stopwatch_ptr>
- 196:	f0 91 15 01 	lds	r31, 0x0115	; 0x800115 <main_stopwatch_ptr+0x1>
+ 192:	e0 91 16 01 	lds	r30, 0x0116	; 0x800116 <main_stopwatch_ptr>
+ 196:	f0 91 17 01 	lds	r31, 0x0117	; 0x800117 <main_stopwatch_ptr+0x1>
  19a:	80 81       	ld	r24, Z
  19c:	8f 5f       	subi	r24, 0xFF	; 255
  19e:	80 83       	st	Z, r24
+	main_min2secClock_ptr->display_count++;
+ 1a0:	e0 91 14 01 	lds	r30, 0x0114	; 0x800114 <main_min2secClock_ptr>
+ 1a4:	f0 91 15 01 	lds	r31, 0x0115	; 0x800115 <main_min2secClock_ptr+0x1>
+ 1a8:	80 81       	ld	r24, Z
+ 1aa:	8f 5f       	subi	r24, 0xFF	; 255
+ 1ac:	80 83       	st	Z, r24
 	if(main_stopwatch_ptr->state == STOPWATCH_RUNNING){
- 1a0:	e0 91 14 01 	lds	r30, 0x0114	; 0x800114 <main_stopwatch_ptr>
- 1a4:	f0 91 15 01 	lds	r31, 0x0115	; 0x800115 <main_stopwatch_ptr+0x1>
- 1a8:	85 81       	ldd	r24, Z+5	; 0x05
- 1aa:	81 30       	cpi	r24, 0x01	; 1
- 1ac:	29 f4       	brne	.+10     	; 0x1b8 <__vector_16+0x40>
+ 1ae:	e0 91 16 01 	lds	r30, 0x0116	; 0x800116 <main_stopwatch_ptr>
+ 1b2:	f0 91 17 01 	lds	r31, 0x0117	; 0x800117 <main_stopwatch_ptr+0x1>
+ 1b6:	85 81       	ldd	r24, Z+5	; 0x05
+ 1b8:	81 30       	cpi	r24, 0x01	; 1
+ 1ba:	29 f4       	brne	.+10     	; 0x1c6 <__vector_16+0x4e>
 		main_stopwatch_ptr->ms_count++;
- 1ae:	81 81       	ldd	r24, Z+1	; 0x01
- 1b0:	92 81       	ldd	r25, Z+2	; 0x02
- 1b2:	01 96       	adiw	r24, 0x01	; 1
- 1b4:	92 83       	std	Z+2, r25	; 0x02
- 1b6:	81 83       	std	Z+1, r24	; 0x01
+ 1bc:	81 81       	ldd	r24, Z+1	; 0x01
+ 1be:	92 81       	ldd	r25, Z+2	; 0x02
+ 1c0:	01 96       	adiw	r24, 0x01	; 1
+ 1c2:	92 83       	std	Z+2, r25	; 0x02
+ 1c4:	81 83       	std	Z+1, r24	; 0x01
+	}
+	if(main_min2secClock_ptr->state == CLOCK_RUNNING){
+ 1c6:	e0 91 14 01 	lds	r30, 0x0114	; 0x800114 <main_min2secClock_ptr>
+ 1ca:	f0 91 15 01 	lds	r31, 0x0115	; 0x800115 <main_min2secClock_ptr+0x1>
+ 1ce:	85 81       	ldd	r24, Z+5	; 0x05
+ 1d0:	81 30       	cpi	r24, 0x01	; 1
+ 1d2:	29 f4       	brne	.+10     	; 0x1de <__vector_16+0x66>
+		main_min2secClock_ptr->ms_count++;
+ 1d4:	81 81       	ldd	r24, Z+1	; 0x01
+ 1d6:	92 81       	ldd	r25, Z+2	; 0x02
+ 1d8:	01 96       	adiw	r24, 0x01	; 1
+ 1da:	92 83       	std	Z+2, r25	; 0x02
+ 1dc:	81 83       	std	Z+1, r24	; 0x01
 	}
 }
- 1b8:	ff 91       	pop	r31
- 1ba:	ef 91       	pop	r30
- 1bc:	9f 91       	pop	r25
- 1be:	8f 91       	pop	r24
- 1c0:	0f 90       	pop	r0
- 1c2:	0b be       	out	0x3b, r0	; 59
- 1c4:	0f 90       	pop	r0
- 1c6:	0f be       	out	0x3f, r0	; 63
- 1c8:	0f 90       	pop	r0
- 1ca:	1f 90       	pop	r1
- 1cc:	18 95       	reti
+ 1de:	ff 91       	pop	r31
+ 1e0:	ef 91       	pop	r30
+ 1e2:	9f 91       	pop	r25
+ 1e4:	8f 91       	pop	r24
+ 1e6:	0f 90       	pop	r0
+ 1e8:	0b be       	out	0x3b, r0	; 59
+ 1ea:	0f 90       	pop	r0
+ 1ec:	0f be       	out	0x3f, r0	; 63
+ 1ee:	0f 90       	pop	r0
+ 1f0:	1f 90       	pop	r1
+ 1f2:	18 95       	reti
 
-000001ce <stop_watch_state>:
-		stop_watch_state(&stopwatch);
-		fnd_display(&stopwatch);
+000001f4 <min2sec_clock_state>:
+		min2sec_clock_state(&stopwatch,&min2sec_clock);
+		fnd_display(&stopwatch,&min2sec_clock);
     }
 }
 
-void stop_watch_state(Stopwatch* pStopwatch){
- 1ce:	cf 93       	push	r28
- 1d0:	df 93       	push	r29
- 1d2:	ec 01       	movw	r28, r24
-	switch(pStopwatch->state){
- 1d4:	8d 81       	ldd	r24, Y+5	; 0x05
- 1d6:	81 30       	cpi	r24, 0x01	; 1
- 1d8:	b1 f0       	breq	.+44     	; 0x206 <stop_watch_state+0x38>
- 1da:	20 f0       	brcs	.+8      	; 0x1e4 <stop_watch_state+0x16>
- 1dc:	82 30       	cpi	r24, 0x02	; 2
- 1de:	09 f4       	brne	.+2      	; 0x1e2 <stop_watch_state+0x14>
- 1e0:	3c c0       	rjmp	.+120    	; 0x25a <stop_watch_state+0x8c>
- 1e2:	4d c0       	rjmp	.+154    	; 0x27e <stop_watch_state+0xb0>
-		case STOPWATCH_IDLE:
+void min2sec_clock_state(Stopwatch* pStopwatch, Min2Sec_Clock* pMin2sec_clock){
+ 1f4:	0f 93       	push	r16
+ 1f6:	1f 93       	push	r17
+ 1f8:	cf 93       	push	r28
+ 1fa:	df 93       	push	r29
+	if(pStopwatch->state == STOPWATCH_IDLE && pMin2sec_clock->state!= CLOCK_IDLE){
+ 1fc:	fc 01       	movw	r30, r24
+ 1fe:	25 81       	ldd	r18, Z+5	; 0x05
+ 200:	21 11       	cpse	r18, r1
+ 202:	36 c0       	rjmp	.+108    	; 0x270 <min2sec_clock_state+0x7c>
+ 204:	fb 01       	movw	r30, r22
+ 206:	25 81       	ldd	r18, Z+5	; 0x05
+ 208:	22 23       	and	r18, r18
+ 20a:	91 f1       	breq	.+100    	; 0x270 <min2sec_clock_state+0x7c>
+		switch (pMin2sec_clock->state){
+ 20c:	21 30       	cpi	r18, 0x01	; 1
+ 20e:	81 f5       	brne	.+96     	; 0x270 <min2sec_clock_state+0x7c>
+			case CLOCK_RUNNING:
+				// increase clock time
+				if(pMin2sec_clock->ms_count >= 1000){
+ 210:	21 81       	ldd	r18, Z+1	; 0x01
+ 212:	32 81       	ldd	r19, Z+2	; 0x02
+ 214:	28 3e       	cpi	r18, 0xE8	; 232
+ 216:	33 40       	sbci	r19, 0x03	; 3
+ 218:	a0 f0       	brcs	.+40     	; 0x242 <min2sec_clock_state+0x4e>
+					pMin2sec_clock->ms_count = 0;
+ 21a:	fb 01       	movw	r30, r22
+ 21c:	12 82       	std	Z+2, r1	; 0x02
+ 21e:	11 82       	std	Z+1, r1	; 0x01
+					pMin2sec_clock->sec_count++;
+ 220:	23 81       	ldd	r18, Z+3	; 0x03
+ 222:	34 81       	ldd	r19, Z+4	; 0x04
+ 224:	2f 5f       	subi	r18, 0xFF	; 255
+ 226:	3f 4f       	sbci	r19, 0xFF	; 255
+ 228:	34 83       	std	Z+4, r19	; 0x04
+ 22a:	23 83       	std	Z+3, r18	; 0x03
+					if(main_min2secClock_ptr->sec_count == 600){
+ 22c:	e0 91 14 01 	lds	r30, 0x0114	; 0x800114 <main_min2secClock_ptr>
+ 230:	f0 91 15 01 	lds	r31, 0x0115	; 0x800115 <main_min2secClock_ptr+0x1>
+ 234:	23 81       	ldd	r18, Z+3	; 0x03
+ 236:	34 81       	ldd	r19, Z+4	; 0x04
+ 238:	28 35       	cpi	r18, 0x58	; 88
+ 23a:	32 40       	sbci	r19, 0x02	; 2
+ 23c:	11 f4       	brne	.+4      	; 0x242 <min2sec_clock_state+0x4e>
+						// 10분이되면 초기화
+						main_min2secClock_ptr->sec_count = 0;
+ 23e:	14 82       	std	Z+4, r1	; 0x04
+ 240:	13 82       	std	Z+3, r1	; 0x03
+ 242:	eb 01       	movw	r28, r22
+ 244:	8c 01       	movw	r16, r24
+					}
+				}
+				// Back to stopwatch mode
+				if(get_button(BUTTON1_PIN,BUTTON1)) {
+ 246:	60 e0       	ldi	r22, 0x00	; 0
+ 248:	70 e0       	ldi	r23, 0x00	; 0
+ 24a:	84 e0       	ldi	r24, 0x04	; 4
+ 24c:	90 e0       	ldi	r25, 0x00	; 0
+ 24e:	40 df       	rcall	.-384    	; 0xd0 <get_button>
+ 250:	89 2b       	or	r24, r25
+ 252:	29 f0       	breq	.+10     	; 0x25e <min2sec_clock_state+0x6a>
+					pStopwatch->state = STOPWATCH_RUNNING;
+ 254:	81 e0       	ldi	r24, 0x01	; 1
+ 256:	f8 01       	movw	r30, r16
+ 258:	85 83       	std	Z+5, r24	; 0x05
+					pMin2sec_clock->state = CLOCK_IDLE;
+ 25a:	1d 82       	std	Y+5, r1	; 0x05
+ 25c:	09 c0       	rjmp	.+18     	; 0x270 <min2sec_clock_state+0x7c>
+				}
+				// change second
+				else if(get_button(BUTTON2_PIN,BUTTON2)) pMin2sec_clock->state = CHANGE_SEC;
+ 25e:	61 e0       	ldi	r22, 0x01	; 1
+ 260:	70 e0       	ldi	r23, 0x00	; 0
+ 262:	85 e0       	ldi	r24, 0x05	; 5
+ 264:	90 e0       	ldi	r25, 0x00	; 0
+ 266:	34 df       	rcall	.-408    	; 0xd0 <get_button>
+ 268:	89 2b       	or	r24, r25
+ 26a:	11 f0       	breq	.+4      	; 0x270 <min2sec_clock_state+0x7c>
+ 26c:	82 e0       	ldi	r24, 0x02	; 2
+ 26e:	8d 83       	std	Y+5, r24	; 0x05
+			case CHANGE_MIN:
+				break;
+		}
+	}
+	return;
+}
+ 270:	df 91       	pop	r29
+ 272:	cf 91       	pop	r28
+ 274:	1f 91       	pop	r17
+ 276:	0f 91       	pop	r16
+ 278:	08 95       	ret
+
+0000027a <stop_watch_state>:
+
+void stop_watch_state(Stopwatch* pStopwatch, Min2Sec_Clock* pMin2sec_clock){
+ 27a:	0f 93       	push	r16
+ 27c:	1f 93       	push	r17
+ 27e:	cf 93       	push	r28
+ 280:	df 93       	push	r29
+ 282:	ec 01       	movw	r28, r24
+	if(pMin2sec_clock->state == CLOCK_IDLE){
+ 284:	fb 01       	movw	r30, r22
+ 286:	95 81       	ldd	r25, Z+5	; 0x05
+ 288:	91 11       	cpse	r25, r1
+ 28a:	67 c0       	rjmp	.+206    	; 0x35a <stop_watch_state+0xe0>
+ 28c:	8b 01       	movw	r16, r22
+		switch(pStopwatch->state){
+ 28e:	8d 81       	ldd	r24, Y+5	; 0x05
+ 290:	81 30       	cpi	r24, 0x01	; 1
+ 292:	b1 f0       	breq	.+44     	; 0x2c0 <stop_watch_state+0x46>
+ 294:	20 f0       	brcs	.+8      	; 0x29e <stop_watch_state+0x24>
+ 296:	82 30       	cpi	r24, 0x02	; 2
+ 298:	09 f4       	brne	.+2      	; 0x29c <stop_watch_state+0x22>
+ 29a:	3f c0       	rjmp	.+126    	; 0x31a <stop_watch_state+0xa0>
+ 29c:	5e c0       	rjmp	.+188    	; 0x35a <stop_watch_state+0xe0>
+			case STOPWATCH_IDLE:
 			pStopwatch->ms_count = 0;
- 1e4:	1a 82       	std	Y+2, r1	; 0x02
- 1e6:	19 82       	std	Y+1, r1	; 0x01
+ 29e:	1a 82       	std	Y+2, r1	; 0x02
+ 2a0:	19 82       	std	Y+1, r1	; 0x01
 			pStopwatch->sec_count = 0;
- 1e8:	1c 82       	std	Y+4, r1	; 0x04
- 1ea:	1b 82       	std	Y+3, r1	; 0x03
+ 2a2:	1c 82       	std	Y+4, r1	; 0x04
+ 2a4:	1b 82       	std	Y+3, r1	; 0x03
 			FND_DIGIT_PORT = 0xff;
- 1ec:	8f ef       	ldi	r24, 0xFF	; 255
- 1ee:	88 bb       	out	0x18, r24	; 24
-			if(get_button(BUTTON1_PIN,BUTTON1)) pStopwatch->state = STOPWATCH_RUNNING;
- 1f0:	60 e0       	ldi	r22, 0x00	; 0
- 1f2:	70 e0       	ldi	r23, 0x00	; 0
- 1f4:	84 e0       	ldi	r24, 0x04	; 4
- 1f6:	90 e0       	ldi	r25, 0x00	; 0
- 1f8:	6b df       	rcall	.-298    	; 0xd0 <get_button>
- 1fa:	89 2b       	or	r24, r25
- 1fc:	09 f4       	brne	.+2      	; 0x200 <stop_watch_state+0x32>
- 1fe:	3f c0       	rjmp	.+126    	; 0x27e <stop_watch_state+0xb0>
- 200:	81 e0       	ldi	r24, 0x01	; 1
- 202:	8d 83       	std	Y+5, r24	; 0x05
- 204:	3c c0       	rjmp	.+120    	; 0x27e <stop_watch_state+0xb0>
+ 2a6:	8f ef       	ldi	r24, 0xFF	; 255
+ 2a8:	88 bb       	out	0x18, r24	; 24
+			if(get_button(BUTTON1_PIN,BUTTON1)) {
+ 2aa:	60 e0       	ldi	r22, 0x00	; 0
+ 2ac:	70 e0       	ldi	r23, 0x00	; 0
+ 2ae:	84 e0       	ldi	r24, 0x04	; 4
+ 2b0:	90 e0       	ldi	r25, 0x00	; 0
+ 2b2:	0e df       	rcall	.-484    	; 0xd0 <get_button>
+ 2b4:	89 2b       	or	r24, r25
+ 2b6:	09 f4       	brne	.+2      	; 0x2ba <stop_watch_state+0x40>
+ 2b8:	50 c0       	rjmp	.+160    	; 0x35a <stop_watch_state+0xe0>
+				pStopwatch->state = STOPWATCH_RUNNING;
+ 2ba:	81 e0       	ldi	r24, 0x01	; 1
+ 2bc:	8d 83       	std	Y+5, r24	; 0x05
+ 2be:	4d c0       	rjmp	.+154    	; 0x35a <stop_watch_state+0xe0>
+			}
 			break;
-		case STOPWATCH_RUNNING:
+			case STOPWATCH_RUNNING:
 			if(pStopwatch->ms_count >= 1000){
- 206:	89 81       	ldd	r24, Y+1	; 0x01
- 208:	9a 81       	ldd	r25, Y+2	; 0x02
- 20a:	88 3e       	cpi	r24, 0xE8	; 232
- 20c:	93 40       	sbci	r25, 0x03	; 3
- 20e:	90 f0       	brcs	.+36     	; 0x234 <stop_watch_state+0x66>
+ 2c0:	89 81       	ldd	r24, Y+1	; 0x01
+ 2c2:	9a 81       	ldd	r25, Y+2	; 0x02
+ 2c4:	88 3e       	cpi	r24, 0xE8	; 232
+ 2c6:	93 40       	sbci	r25, 0x03	; 3
+ 2c8:	90 f0       	brcs	.+36     	; 0x2ee <stop_watch_state+0x74>
 				pStopwatch->ms_count = 0;
- 210:	1a 82       	std	Y+2, r1	; 0x02
- 212:	19 82       	std	Y+1, r1	; 0x01
+ 2ca:	1a 82       	std	Y+2, r1	; 0x02
+ 2cc:	19 82       	std	Y+1, r1	; 0x01
 				pStopwatch->sec_count++;
- 214:	8b 81       	ldd	r24, Y+3	; 0x03
- 216:	9c 81       	ldd	r25, Y+4	; 0x04
- 218:	01 96       	adiw	r24, 0x01	; 1
- 21a:	9c 83       	std	Y+4, r25	; 0x04
- 21c:	8b 83       	std	Y+3, r24	; 0x03
+ 2ce:	8b 81       	ldd	r24, Y+3	; 0x03
+ 2d0:	9c 81       	ldd	r25, Y+4	; 0x04
+ 2d2:	01 96       	adiw	r24, 0x01	; 1
+ 2d4:	9c 83       	std	Y+4, r25	; 0x04
+ 2d6:	8b 83       	std	Y+3, r24	; 0x03
 				if(main_stopwatch_ptr->sec_count == 600){
- 21e:	e0 91 14 01 	lds	r30, 0x0114	; 0x800114 <main_stopwatch_ptr>
- 222:	f0 91 15 01 	lds	r31, 0x0115	; 0x800115 <main_stopwatch_ptr+0x1>
- 226:	83 81       	ldd	r24, Z+3	; 0x03
- 228:	94 81       	ldd	r25, Z+4	; 0x04
- 22a:	88 35       	cpi	r24, 0x58	; 88
- 22c:	92 40       	sbci	r25, 0x02	; 2
- 22e:	11 f4       	brne	.+4      	; 0x234 <stop_watch_state+0x66>
+ 2d8:	e0 91 16 01 	lds	r30, 0x0116	; 0x800116 <main_stopwatch_ptr>
+ 2dc:	f0 91 17 01 	lds	r31, 0x0117	; 0x800117 <main_stopwatch_ptr+0x1>
+ 2e0:	83 81       	ldd	r24, Z+3	; 0x03
+ 2e2:	94 81       	ldd	r25, Z+4	; 0x04
+ 2e4:	88 35       	cpi	r24, 0x58	; 88
+ 2e6:	92 40       	sbci	r25, 0x02	; 2
+ 2e8:	11 f4       	brne	.+4      	; 0x2ee <stop_watch_state+0x74>
 					// 10분이되면 초기화
 					main_stopwatch_ptr->sec_count = 0;
- 230:	14 82       	std	Z+4, r1	; 0x04
- 232:	13 82       	std	Z+3, r1	; 0x03
+ 2ea:	14 82       	std	Z+4, r1	; 0x04
+ 2ec:	13 82       	std	Z+3, r1	; 0x03
 				}
 			}
-			if(get_button(BUTTON1_PIN,BUTTON1)) pStopwatch->state = STOPWATCH_PAUSED;
- 234:	60 e0       	ldi	r22, 0x00	; 0
- 236:	70 e0       	ldi	r23, 0x00	; 0
- 238:	84 e0       	ldi	r24, 0x04	; 4
- 23a:	90 e0       	ldi	r25, 0x00	; 0
- 23c:	49 df       	rcall	.-366    	; 0xd0 <get_button>
- 23e:	89 2b       	or	r24, r25
- 240:	19 f0       	breq	.+6      	; 0x248 <stop_watch_state+0x7a>
- 242:	82 e0       	ldi	r24, 0x02	; 2
- 244:	8d 83       	std	Y+5, r24	; 0x05
- 246:	1b c0       	rjmp	.+54     	; 0x27e <stop_watch_state+0xb0>
-			else if(get_button(BUTTON2_PIN,BUTTON2)) pStopwatch->state = STOPWATCH_IDLE;
- 248:	61 e0       	ldi	r22, 0x01	; 1
- 24a:	70 e0       	ldi	r23, 0x00	; 0
- 24c:	85 e0       	ldi	r24, 0x05	; 5
- 24e:	90 e0       	ldi	r25, 0x00	; 0
- 250:	3f df       	rcall	.-386    	; 0xd0 <get_button>
- 252:	89 2b       	or	r24, r25
- 254:	a1 f0       	breq	.+40     	; 0x27e <stop_watch_state+0xb0>
- 256:	1d 82       	std	Y+5, r1	; 0x05
- 258:	12 c0       	rjmp	.+36     	; 0x27e <stop_watch_state+0xb0>
+			// Switch to Min2Sec_Clock
+			if(get_button(BUTTON1_PIN,BUTTON1)) {
+ 2ee:	60 e0       	ldi	r22, 0x00	; 0
+ 2f0:	70 e0       	ldi	r23, 0x00	; 0
+ 2f2:	84 e0       	ldi	r24, 0x04	; 4
+ 2f4:	90 e0       	ldi	r25, 0x00	; 0
+ 2f6:	ec de       	rcall	.-552    	; 0xd0 <get_button>
+ 2f8:	89 2b       	or	r24, r25
+ 2fa:	29 f0       	breq	.+10     	; 0x306 <stop_watch_state+0x8c>
+				pStopwatch->state = STOPWATCH_IDLE;
+ 2fc:	1d 82       	std	Y+5, r1	; 0x05
+				pMin2sec_clock->state = CLOCK_RUNNING;
+ 2fe:	81 e0       	ldi	r24, 0x01	; 1
+ 300:	f8 01       	movw	r30, r16
+ 302:	85 83       	std	Z+5, r24	; 0x05
+ 304:	2a c0       	rjmp	.+84     	; 0x35a <stop_watch_state+0xe0>
+			}
+			else if(get_button(BUTTON2_PIN,BUTTON2)) pStopwatch->state = STOPWATCH_PAUSED;
+ 306:	61 e0       	ldi	r22, 0x01	; 1
+ 308:	70 e0       	ldi	r23, 0x00	; 0
+ 30a:	85 e0       	ldi	r24, 0x05	; 5
+ 30c:	90 e0       	ldi	r25, 0x00	; 0
+ 30e:	e0 de       	rcall	.-576    	; 0xd0 <get_button>
+ 310:	89 2b       	or	r24, r25
+ 312:	19 f1       	breq	.+70     	; 0x35a <stop_watch_state+0xe0>
+ 314:	82 e0       	ldi	r24, 0x02	; 2
+ 316:	8d 83       	std	Y+5, r24	; 0x05
+ 318:	20 c0       	rjmp	.+64     	; 0x35a <stop_watch_state+0xe0>
 			break;
-		case STOPWATCH_PAUSED:
-			if(get_button(BUTTON1_PIN,BUTTON1)) pStopwatch->state = STOPWATCH_RUNNING;
- 25a:	60 e0       	ldi	r22, 0x00	; 0
- 25c:	70 e0       	ldi	r23, 0x00	; 0
- 25e:	84 e0       	ldi	r24, 0x04	; 4
- 260:	90 e0       	ldi	r25, 0x00	; 0
- 262:	36 df       	rcall	.-404    	; 0xd0 <get_button>
- 264:	89 2b       	or	r24, r25
- 266:	19 f0       	breq	.+6      	; 0x26e <stop_watch_state+0xa0>
- 268:	81 e0       	ldi	r24, 0x01	; 1
- 26a:	8d 83       	std	Y+5, r24	; 0x05
- 26c:	08 c0       	rjmp	.+16     	; 0x27e <stop_watch_state+0xb0>
-			else if(get_button(BUTTON2_PIN,BUTTON2)) pStopwatch->state = STOPWATCH_IDLE;
- 26e:	61 e0       	ldi	r22, 0x01	; 1
- 270:	70 e0       	ldi	r23, 0x00	; 0
- 272:	85 e0       	ldi	r24, 0x05	; 5
- 274:	90 e0       	ldi	r25, 0x00	; 0
- 276:	2c df       	rcall	.-424    	; 0xd0 <get_button>
- 278:	89 2b       	or	r24, r25
- 27a:	09 f0       	breq	.+2      	; 0x27e <stop_watch_state+0xb0>
- 27c:	1d 82       	std	Y+5, r1	; 0x05
+			case STOPWATCH_PAUSED:
+			// Switch to Min2Sec_Clock
+			if(get_button(BUTTON1_PIN,BUTTON1)) {
+ 31a:	60 e0       	ldi	r22, 0x00	; 0
+ 31c:	70 e0       	ldi	r23, 0x00	; 0
+ 31e:	84 e0       	ldi	r24, 0x04	; 4
+ 320:	90 e0       	ldi	r25, 0x00	; 0
+ 322:	d6 de       	rcall	.-596    	; 0xd0 <get_button>
+ 324:	89 2b       	or	r24, r25
+ 326:	29 f0       	breq	.+10     	; 0x332 <stop_watch_state+0xb8>
+				pStopwatch->state = STOPWATCH_IDLE;
+ 328:	1d 82       	std	Y+5, r1	; 0x05
+				pMin2sec_clock->state = CLOCK_RUNNING;
+ 32a:	81 e0       	ldi	r24, 0x01	; 1
+ 32c:	f8 01       	movw	r30, r16
+ 32e:	85 83       	std	Z+5, r24	; 0x05
+ 330:	14 c0       	rjmp	.+40     	; 0x35a <stop_watch_state+0xe0>
+			}
+			else if(get_button(BUTTON2_PIN,BUTTON2)) pStopwatch->state = STOPWATCH_RUNNING;
+ 332:	61 e0       	ldi	r22, 0x01	; 1
+ 334:	70 e0       	ldi	r23, 0x00	; 0
+ 336:	85 e0       	ldi	r24, 0x05	; 5
+ 338:	90 e0       	ldi	r25, 0x00	; 0
+ 33a:	ca de       	rcall	.-620    	; 0xd0 <get_button>
+ 33c:	89 2b       	or	r24, r25
+ 33e:	19 f0       	breq	.+6      	; 0x346 <stop_watch_state+0xcc>
+ 340:	81 e0       	ldi	r24, 0x01	; 1
+ 342:	8d 83       	std	Y+5, r24	; 0x05
+			else if(get_button(BUTTON3_PIN,BUTTON3)) {
+ 344:	0a c0       	rjmp	.+20     	; 0x35a <stop_watch_state+0xe0>
+ 346:	62 e0       	ldi	r22, 0x02	; 2
+ 348:	70 e0       	ldi	r23, 0x00	; 0
+ 34a:	86 e0       	ldi	r24, 0x06	; 6
+ 34c:	90 e0       	ldi	r25, 0x00	; 0
+ 34e:	c0 de       	rcall	.-640    	; 0xd0 <get_button>
+ 350:	89 2b       	or	r24, r25
+ 352:	19 f0       	breq	.+6      	; 0x35a <stop_watch_state+0xe0>
+				pStopwatch->state = STOPWATCH_IDLE;
+ 354:	1d 82       	std	Y+5, r1	; 0x05
+				pMin2sec_clock->state = STOPWATCH_IDLE;
+ 356:	f8 01       	movw	r30, r16
+ 358:	15 82       	std	Z+5, r1	; 0x05
+			};
 			break;
+		}
 	}
+	return;
 }
- 27e:	df 91       	pop	r29
- 280:	cf 91       	pop	r28
- 282:	08 95       	ret
+ 35a:	df 91       	pop	r29
+ 35c:	cf 91       	pop	r28
+ 35e:	1f 91       	pop	r17
+ 360:	0f 91       	pop	r16
+ 362:	08 95       	ret
 
-00000284 <fnd_display>:
-
+00000364 <fnd_display>:
 
 // display the FND
-void fnd_display(Stopwatch* pStopwatch){
- 284:	cf 93       	push	r28
- 286:	df 93       	push	r29
- 288:	cd b7       	in	r28, 0x3d	; 61
- 28a:	de b7       	in	r29, 0x3e	; 62
- 28c:	2b 97       	sbiw	r28, 0x0b	; 11
- 28e:	0f b6       	in	r0, 0x3f	; 63
- 290:	f8 94       	cli
- 292:	de bf       	out	0x3e, r29	; 62
- 294:	0f be       	out	0x3f, r0	; 63
- 296:	cd bf       	out	0x3d, r28	; 61
- 298:	ac 01       	movw	r20, r24
+void fnd_display(Stopwatch* pStopwatch, Min2Sec_Clock* pMin2sec_clock){
+ 364:	0f 93       	push	r16
+ 366:	1f 93       	push	r17
+ 368:	cf 93       	push	r28
+ 36a:	df 93       	push	r29
+ 36c:	cd b7       	in	r28, 0x3d	; 61
+ 36e:	de b7       	in	r29, 0x3e	; 62
+ 370:	2b 97       	sbiw	r28, 0x0b	; 11
+ 372:	0f b6       	in	r0, 0x3f	; 63
+ 374:	f8 94       	cli
+ 376:	de bf       	out	0x3e, r29	; 62
+ 378:	0f be       	out	0x3f, r0	; 63
+ 37a:	cd bf       	out	0x3d, r28	; 61
+ 37c:	ac 01       	movw	r20, r24
+ 37e:	8b 01       	movw	r16, r22
 	if(pStopwatch->state != STOPWATCH_IDLE){
- 29a:	dc 01       	movw	r26, r24
- 29c:	15 96       	adiw	r26, 0x05	; 5
- 29e:	8c 91       	ld	r24, X
- 2a0:	88 23       	and	r24, r24
- 2a2:	09 f4       	brne	.+2      	; 0x2a6 <fnd_display+0x22>
- 2a4:	dc c0       	rjmp	.+440    	; 0x45e <__LOCK_REGION_LENGTH__+0x5e>
+ 380:	dc 01       	movw	r26, r24
+ 382:	15 96       	adiw	r26, 0x05	; 5
+ 384:	8c 91       	ld	r24, X
+ 386:	88 23       	and	r24, r24
+ 388:	09 f4       	brne	.+2      	; 0x38c <fnd_display+0x28>
+ 38a:	dd c0       	rjmp	.+442    	; 0x546 <__LOCK_REGION_LENGTH__+0x146>
 		// 0을 찍을려면 g빼고 1로 16진수값 3F입니다, b는 0011_1111(common anode)
 		// common cathode는 1100_0000이고, 16진수로 C0
 		//0    1     2     3    4    5    6    7    8    9		dp(10번방)
 		unsigned char fnd_font[] = {~0xc0, ~0xf9, ~0xa4, ~0xb0,~0x99,~0x92,~0x82,~0xd8,~0x80,~0x98,~0x7f};
- 2a6:	8b e0       	ldi	r24, 0x0B	; 11
- 2a8:	e0 e0       	ldi	r30, 0x00	; 0
- 2aa:	f1 e0       	ldi	r31, 0x01	; 1
- 2ac:	de 01       	movw	r26, r28
- 2ae:	11 96       	adiw	r26, 0x01	; 1
- 2b0:	01 90       	ld	r0, Z+
- 2b2:	0d 92       	st	X+, r0
- 2b4:	8a 95       	dec	r24
- 2b6:	e1 f7       	brne	.-8      	; 0x2b0 <fnd_display+0x2c>
+ 38c:	8b e0       	ldi	r24, 0x0B	; 11
+ 38e:	e0 e0       	ldi	r30, 0x00	; 0
+ 390:	f1 e0       	ldi	r31, 0x01	; 1
+ 392:	de 01       	movw	r26, r28
+ 394:	11 96       	adiw	r26, 0x01	; 1
+ 396:	01 90       	ld	r0, Z+
+ 398:	0d 92       	st	X+, r0
+ 39a:	8a 95       	dec	r24
+ 39c:	e1 f7       	brne	.-8      	; 0x396 <fnd_display+0x32>
 
 		static int digit_position = 0; // 자리수 선택  변수 0~3 : 0,1,2,3
 
 		switch(digit_position){
- 2b8:	80 91 10 01 	lds	r24, 0x0110	; 0x800110 <digit_position.2124>
- 2bc:	90 91 11 01 	lds	r25, 0x0111	; 0x800111 <digit_position.2124+0x1>
- 2c0:	82 30       	cpi	r24, 0x02	; 2
- 2c2:	91 05       	cpc	r25, r1
- 2c4:	e1 f1       	breq	.+120    	; 0x33e <fnd_display+0xba>
- 2c6:	1c f4       	brge	.+6      	; 0x2ce <fnd_display+0x4a>
- 2c8:	89 2b       	or	r24, r25
- 2ca:	49 f0       	breq	.+18     	; 0x2de <fnd_display+0x5a>
- 2cc:	bf c0       	rjmp	.+382    	; 0x44c <__LOCK_REGION_LENGTH__+0x4c>
- 2ce:	84 30       	cpi	r24, 0x04	; 4
- 2d0:	91 05       	cpc	r25, r1
- 2d2:	09 f4       	brne	.+2      	; 0x2d6 <fnd_display+0x52>
- 2d4:	5c c0       	rjmp	.+184    	; 0x38e <fnd_display+0x10a>
- 2d6:	06 97       	sbiw	r24, 0x06	; 6
- 2d8:	09 f4       	brne	.+2      	; 0x2dc <fnd_display+0x58>
- 2da:	85 c0       	rjmp	.+266    	; 0x3e6 <fnd_display+0x162>
- 2dc:	b7 c0       	rjmp	.+366    	; 0x44c <__LOCK_REGION_LENGTH__+0x4c>
+ 39e:	80 91 12 01 	lds	r24, 0x0112	; 0x800112 <digit_position.2141>
+ 3a2:	90 91 13 01 	lds	r25, 0x0113	; 0x800113 <digit_position.2141+0x1>
+ 3a6:	82 30       	cpi	r24, 0x02	; 2
+ 3a8:	91 05       	cpc	r25, r1
+ 3aa:	e1 f1       	breq	.+120    	; 0x424 <__LOCK_REGION_LENGTH__+0x24>
+ 3ac:	1c f4       	brge	.+6      	; 0x3b4 <fnd_display+0x50>
+ 3ae:	89 2b       	or	r24, r25
+ 3b0:	49 f0       	breq	.+18     	; 0x3c4 <fnd_display+0x60>
+ 3b2:	bf c0       	rjmp	.+382    	; 0x532 <__LOCK_REGION_LENGTH__+0x132>
+ 3b4:	84 30       	cpi	r24, 0x04	; 4
+ 3b6:	91 05       	cpc	r25, r1
+ 3b8:	09 f4       	brne	.+2      	; 0x3bc <fnd_display+0x58>
+ 3ba:	5c c0       	rjmp	.+184    	; 0x474 <__LOCK_REGION_LENGTH__+0x74>
+ 3bc:	06 97       	sbiw	r24, 0x06	; 6
+ 3be:	09 f4       	brne	.+2      	; 0x3c2 <fnd_display+0x5e>
+ 3c0:	85 c0       	rjmp	.+266    	; 0x4cc <__LOCK_REGION_LENGTH__+0xcc>
+ 3c2:	b7 c0       	rjmp	.+366    	; 0x532 <__LOCK_REGION_LENGTH__+0x132>
 		case 0: // 1단위 : 10분의1초 마다(0~9)
 			FND_DIGIT_PORT = ~0b10000000; // cathode
- 2de:	8f e7       	ldi	r24, 0x7F	; 127
- 2e0:	88 bb       	out	0x18, r24	; 24
+ 3c4:	8f e7       	ldi	r24, 0x7F	; 127
+ 3c6:	88 bb       	out	0x18, r24	; 24
 			FND_DATA_PORT = fnd_font[pStopwatch->ms_count/100%10];
- 2e2:	fa 01       	movw	r30, r20
- 2e4:	21 81       	ldd	r18, Z+1	; 0x01
- 2e6:	32 81       	ldd	r19, Z+2	; 0x02
- 2e8:	36 95       	lsr	r19
- 2ea:	27 95       	ror	r18
- 2ec:	36 95       	lsr	r19
- 2ee:	27 95       	ror	r18
- 2f0:	ab e7       	ldi	r26, 0x7B	; 123
- 2f2:	b4 e1       	ldi	r27, 0x14	; 20
- 2f4:	d9 d0       	rcall	.+434    	; 0x4a8 <__umulhisi3>
- 2f6:	fc 01       	movw	r30, r24
- 2f8:	f6 95       	lsr	r31
- 2fa:	e7 95       	ror	r30
- 2fc:	9f 01       	movw	r18, r30
- 2fe:	ad ec       	ldi	r26, 0xCD	; 205
- 300:	bc ec       	ldi	r27, 0xCC	; 204
- 302:	d2 d0       	rcall	.+420    	; 0x4a8 <__umulhisi3>
- 304:	96 95       	lsr	r25
- 306:	87 95       	ror	r24
- 308:	96 95       	lsr	r25
- 30a:	87 95       	ror	r24
- 30c:	96 95       	lsr	r25
- 30e:	87 95       	ror	r24
- 310:	9c 01       	movw	r18, r24
- 312:	22 0f       	add	r18, r18
- 314:	33 1f       	adc	r19, r19
- 316:	88 0f       	add	r24, r24
- 318:	99 1f       	adc	r25, r25
- 31a:	88 0f       	add	r24, r24
- 31c:	99 1f       	adc	r25, r25
- 31e:	88 0f       	add	r24, r24
- 320:	99 1f       	adc	r25, r25
- 322:	82 0f       	add	r24, r18
- 324:	93 1f       	adc	r25, r19
- 326:	9f 01       	movw	r18, r30
- 328:	28 1b       	sub	r18, r24
- 32a:	39 0b       	sbc	r19, r25
- 32c:	e1 e0       	ldi	r30, 0x01	; 1
- 32e:	f0 e0       	ldi	r31, 0x00	; 0
- 330:	ec 0f       	add	r30, r28
- 332:	fd 1f       	adc	r31, r29
- 334:	e2 0f       	add	r30, r18
- 336:	f3 1f       	adc	r31, r19
- 338:	80 81       	ld	r24, Z
- 33a:	85 bb       	out	0x15, r24	; 21
+ 3c8:	fa 01       	movw	r30, r20
+ 3ca:	21 81       	ldd	r18, Z+1	; 0x01
+ 3cc:	32 81       	ldd	r19, Z+2	; 0x02
+ 3ce:	36 95       	lsr	r19
+ 3d0:	27 95       	ror	r18
+ 3d2:	36 95       	lsr	r19
+ 3d4:	27 95       	ror	r18
+ 3d6:	ab e7       	ldi	r26, 0x7B	; 123
+ 3d8:	b4 e1       	ldi	r27, 0x14	; 20
+ 3da:	dc d1       	rcall	.+952    	; 0x794 <__umulhisi3>
+ 3dc:	fc 01       	movw	r30, r24
+ 3de:	f6 95       	lsr	r31
+ 3e0:	e7 95       	ror	r30
+ 3e2:	9f 01       	movw	r18, r30
+ 3e4:	ad ec       	ldi	r26, 0xCD	; 205
+ 3e6:	bc ec       	ldi	r27, 0xCC	; 204
+ 3e8:	d5 d1       	rcall	.+938    	; 0x794 <__umulhisi3>
+ 3ea:	96 95       	lsr	r25
+ 3ec:	87 95       	ror	r24
+ 3ee:	96 95       	lsr	r25
+ 3f0:	87 95       	ror	r24
+ 3f2:	96 95       	lsr	r25
+ 3f4:	87 95       	ror	r24
+ 3f6:	9c 01       	movw	r18, r24
+ 3f8:	22 0f       	add	r18, r18
+ 3fa:	33 1f       	adc	r19, r19
+ 3fc:	88 0f       	add	r24, r24
+ 3fe:	99 1f       	adc	r25, r25
+ 400:	88 0f       	add	r24, r24
+ 402:	99 1f       	adc	r25, r25
+ 404:	88 0f       	add	r24, r24
+ 406:	99 1f       	adc	r25, r25
+ 408:	82 0f       	add	r24, r18
+ 40a:	93 1f       	adc	r25, r19
+ 40c:	9f 01       	movw	r18, r30
+ 40e:	28 1b       	sub	r18, r24
+ 410:	39 0b       	sbc	r19, r25
+ 412:	e1 e0       	ldi	r30, 0x01	; 1
+ 414:	f0 e0       	ldi	r31, 0x00	; 0
+ 416:	ec 0f       	add	r30, r28
+ 418:	fd 1f       	adc	r31, r29
+ 41a:	e2 0f       	add	r30, r18
+ 41c:	f3 1f       	adc	r31, r19
+ 41e:	80 81       	ld	r24, Z
+ 420:	85 bb       	out	0x15, r24	; 21
 			break;
- 33c:	87 c0       	rjmp	.+270    	; 0x44c <__LOCK_REGION_LENGTH__+0x4c>
+ 422:	87 c0       	rjmp	.+270    	; 0x532 <__LOCK_REGION_LENGTH__+0x132>
 		case 2: // 10단위 : 1s마다(0~9)
 			FND_DIGIT_PORT = ~0b01000000; // cathode
- 33e:	8f eb       	ldi	r24, 0xBF	; 191
- 340:	88 bb       	out	0x18, r24	; 24
+ 424:	8f eb       	ldi	r24, 0xBF	; 191
+ 426:	88 bb       	out	0x18, r24	; 24
 			FND_DATA_PORT =fnd_font[pStopwatch->sec_count%10];
- 342:	da 01       	movw	r26, r20
- 344:	13 96       	adiw	r26, 0x03	; 3
- 346:	ed 91       	ld	r30, X+
- 348:	fc 91       	ld	r31, X
- 34a:	14 97       	sbiw	r26, 0x04	; 4
- 34c:	9f 01       	movw	r18, r30
- 34e:	ad ec       	ldi	r26, 0xCD	; 205
- 350:	bc ec       	ldi	r27, 0xCC	; 204
- 352:	aa d0       	rcall	.+340    	; 0x4a8 <__umulhisi3>
- 354:	96 95       	lsr	r25
- 356:	87 95       	ror	r24
- 358:	96 95       	lsr	r25
- 35a:	87 95       	ror	r24
- 35c:	96 95       	lsr	r25
- 35e:	87 95       	ror	r24
- 360:	9c 01       	movw	r18, r24
- 362:	22 0f       	add	r18, r18
- 364:	33 1f       	adc	r19, r19
- 366:	88 0f       	add	r24, r24
- 368:	99 1f       	adc	r25, r25
- 36a:	88 0f       	add	r24, r24
- 36c:	99 1f       	adc	r25, r25
- 36e:	88 0f       	add	r24, r24
- 370:	99 1f       	adc	r25, r25
- 372:	82 0f       	add	r24, r18
- 374:	93 1f       	adc	r25, r19
- 376:	9f 01       	movw	r18, r30
- 378:	28 1b       	sub	r18, r24
- 37a:	39 0b       	sbc	r19, r25
- 37c:	e1 e0       	ldi	r30, 0x01	; 1
- 37e:	f0 e0       	ldi	r31, 0x00	; 0
- 380:	ec 0f       	add	r30, r28
- 382:	fd 1f       	adc	r31, r29
- 384:	e2 0f       	add	r30, r18
- 386:	f3 1f       	adc	r31, r19
- 388:	80 81       	ld	r24, Z
- 38a:	85 bb       	out	0x15, r24	; 21
+ 428:	da 01       	movw	r26, r20
+ 42a:	13 96       	adiw	r26, 0x03	; 3
+ 42c:	ed 91       	ld	r30, X+
+ 42e:	fc 91       	ld	r31, X
+ 430:	14 97       	sbiw	r26, 0x04	; 4
+ 432:	9f 01       	movw	r18, r30
+ 434:	ad ec       	ldi	r26, 0xCD	; 205
+ 436:	bc ec       	ldi	r27, 0xCC	; 204
+ 438:	ad d1       	rcall	.+858    	; 0x794 <__umulhisi3>
+ 43a:	96 95       	lsr	r25
+ 43c:	87 95       	ror	r24
+ 43e:	96 95       	lsr	r25
+ 440:	87 95       	ror	r24
+ 442:	96 95       	lsr	r25
+ 444:	87 95       	ror	r24
+ 446:	9c 01       	movw	r18, r24
+ 448:	22 0f       	add	r18, r18
+ 44a:	33 1f       	adc	r19, r19
+ 44c:	88 0f       	add	r24, r24
+ 44e:	99 1f       	adc	r25, r25
+ 450:	88 0f       	add	r24, r24
+ 452:	99 1f       	adc	r25, r25
+ 454:	88 0f       	add	r24, r24
+ 456:	99 1f       	adc	r25, r25
+ 458:	82 0f       	add	r24, r18
+ 45a:	93 1f       	adc	r25, r19
+ 45c:	9f 01       	movw	r18, r30
+ 45e:	28 1b       	sub	r18, r24
+ 460:	39 0b       	sbc	r19, r25
+ 462:	e1 e0       	ldi	r30, 0x01	; 1
+ 464:	f0 e0       	ldi	r31, 0x00	; 0
+ 466:	ec 0f       	add	r30, r28
+ 468:	fd 1f       	adc	r31, r29
+ 46a:	e2 0f       	add	r30, r18
+ 46c:	f3 1f       	adc	r31, r19
+ 46e:	80 81       	ld	r24, Z
+ 470:	85 bb       	out	0x15, r24	; 21
 			break;
- 38c:	5f c0       	rjmp	.+190    	; 0x44c <__LOCK_REGION_LENGTH__+0x4c>
+ 472:	5f c0       	rjmp	.+190    	; 0x532 <__LOCK_REGION_LENGTH__+0x132>
 		case 4: // 100단위 : 10단위s마다(0~6)
 			FND_DIGIT_PORT = ~0b00100000; // cathode
- 38e:	8f ed       	ldi	r24, 0xDF	; 223
- 390:	88 bb       	out	0x18, r24	; 24
+ 474:	8f ed       	ldi	r24, 0xDF	; 223
+ 476:	88 bb       	out	0x18, r24	; 24
 			FND_DATA_PORT = fnd_font[pStopwatch->sec_count/10%6];
- 392:	da 01       	movw	r26, r20
- 394:	13 96       	adiw	r26, 0x03	; 3
- 396:	2d 91       	ld	r18, X+
- 398:	3c 91       	ld	r19, X
- 39a:	14 97       	sbiw	r26, 0x04	; 4
- 39c:	ad ec       	ldi	r26, 0xCD	; 205
- 39e:	bc ec       	ldi	r27, 0xCC	; 204
- 3a0:	83 d0       	rcall	.+262    	; 0x4a8 <__umulhisi3>
- 3a2:	fc 01       	movw	r30, r24
- 3a4:	f6 95       	lsr	r31
- 3a6:	e7 95       	ror	r30
- 3a8:	f6 95       	lsr	r31
- 3aa:	e7 95       	ror	r30
- 3ac:	f6 95       	lsr	r31
- 3ae:	e7 95       	ror	r30
- 3b0:	9f 01       	movw	r18, r30
- 3b2:	ab ea       	ldi	r26, 0xAB	; 171
- 3b4:	ba ea       	ldi	r27, 0xAA	; 170
- 3b6:	78 d0       	rcall	.+240    	; 0x4a8 <__umulhisi3>
- 3b8:	96 95       	lsr	r25
- 3ba:	87 95       	ror	r24
- 3bc:	96 95       	lsr	r25
- 3be:	87 95       	ror	r24
- 3c0:	9c 01       	movw	r18, r24
- 3c2:	22 0f       	add	r18, r18
- 3c4:	33 1f       	adc	r19, r19
- 3c6:	82 0f       	add	r24, r18
- 3c8:	93 1f       	adc	r25, r19
- 3ca:	88 0f       	add	r24, r24
- 3cc:	99 1f       	adc	r25, r25
- 3ce:	9f 01       	movw	r18, r30
- 3d0:	28 1b       	sub	r18, r24
- 3d2:	39 0b       	sbc	r19, r25
- 3d4:	e1 e0       	ldi	r30, 0x01	; 1
- 3d6:	f0 e0       	ldi	r31, 0x00	; 0
- 3d8:	ec 0f       	add	r30, r28
- 3da:	fd 1f       	adc	r31, r29
- 3dc:	e2 0f       	add	r30, r18
- 3de:	f3 1f       	adc	r31, r19
- 3e0:	80 81       	ld	r24, Z
- 3e2:	85 bb       	out	0x15, r24	; 21
+ 478:	da 01       	movw	r26, r20
+ 47a:	13 96       	adiw	r26, 0x03	; 3
+ 47c:	2d 91       	ld	r18, X+
+ 47e:	3c 91       	ld	r19, X
+ 480:	14 97       	sbiw	r26, 0x04	; 4
+ 482:	ad ec       	ldi	r26, 0xCD	; 205
+ 484:	bc ec       	ldi	r27, 0xCC	; 204
+ 486:	86 d1       	rcall	.+780    	; 0x794 <__umulhisi3>
+ 488:	fc 01       	movw	r30, r24
+ 48a:	f6 95       	lsr	r31
+ 48c:	e7 95       	ror	r30
+ 48e:	f6 95       	lsr	r31
+ 490:	e7 95       	ror	r30
+ 492:	f6 95       	lsr	r31
+ 494:	e7 95       	ror	r30
+ 496:	9f 01       	movw	r18, r30
+ 498:	ab ea       	ldi	r26, 0xAB	; 171
+ 49a:	ba ea       	ldi	r27, 0xAA	; 170
+ 49c:	7b d1       	rcall	.+758    	; 0x794 <__umulhisi3>
+ 49e:	96 95       	lsr	r25
+ 4a0:	87 95       	ror	r24
+ 4a2:	96 95       	lsr	r25
+ 4a4:	87 95       	ror	r24
+ 4a6:	9c 01       	movw	r18, r24
+ 4a8:	22 0f       	add	r18, r18
+ 4aa:	33 1f       	adc	r19, r19
+ 4ac:	82 0f       	add	r24, r18
+ 4ae:	93 1f       	adc	r25, r19
+ 4b0:	88 0f       	add	r24, r24
+ 4b2:	99 1f       	adc	r25, r25
+ 4b4:	9f 01       	movw	r18, r30
+ 4b6:	28 1b       	sub	r18, r24
+ 4b8:	39 0b       	sbc	r19, r25
+ 4ba:	e1 e0       	ldi	r30, 0x01	; 1
+ 4bc:	f0 e0       	ldi	r31, 0x00	; 0
+ 4be:	ec 0f       	add	r30, r28
+ 4c0:	fd 1f       	adc	r31, r29
+ 4c2:	e2 0f       	add	r30, r18
+ 4c4:	f3 1f       	adc	r31, r19
+ 4c6:	80 81       	ld	r24, Z
+ 4c8:	85 bb       	out	0x15, r24	; 21
 			break;
- 3e4:	33 c0       	rjmp	.+102    	; 0x44c <__LOCK_REGION_LENGTH__+0x4c>
+ 4ca:	33 c0       	rjmp	.+102    	; 0x532 <__LOCK_REGION_LENGTH__+0x132>
 		case 6: // 1000단위 : 분단위=60초마다(0~9)
 			FND_DIGIT_PORT = ~0b00010000; // cathode
- 3e6:	8f ee       	ldi	r24, 0xEF	; 239
- 3e8:	88 bb       	out	0x18, r24	; 24
+ 4cc:	8f ee       	ldi	r24, 0xEF	; 239
+ 4ce:	88 bb       	out	0x18, r24	; 24
 			FND_DATA_PORT = fnd_font[pStopwatch->sec_count/60%10];
- 3ea:	da 01       	movw	r26, r20
- 3ec:	13 96       	adiw	r26, 0x03	; 3
- 3ee:	2d 91       	ld	r18, X+
- 3f0:	3c 91       	ld	r19, X
- 3f2:	14 97       	sbiw	r26, 0x04	; 4
- 3f4:	a9 e8       	ldi	r26, 0x89	; 137
- 3f6:	b8 e8       	ldi	r27, 0x88	; 136
- 3f8:	57 d0       	rcall	.+174    	; 0x4a8 <__umulhisi3>
- 3fa:	fc 01       	movw	r30, r24
- 3fc:	f6 95       	lsr	r31
- 3fe:	e7 95       	ror	r30
- 400:	f2 95       	swap	r31
- 402:	e2 95       	swap	r30
- 404:	ef 70       	andi	r30, 0x0F	; 15
- 406:	ef 27       	eor	r30, r31
- 408:	ff 70       	andi	r31, 0x0F	; 15
- 40a:	ef 27       	eor	r30, r31
- 40c:	9f 01       	movw	r18, r30
- 40e:	ad ec       	ldi	r26, 0xCD	; 205
- 410:	bc ec       	ldi	r27, 0xCC	; 204
- 412:	4a d0       	rcall	.+148    	; 0x4a8 <__umulhisi3>
- 414:	96 95       	lsr	r25
- 416:	87 95       	ror	r24
- 418:	96 95       	lsr	r25
- 41a:	87 95       	ror	r24
- 41c:	96 95       	lsr	r25
- 41e:	87 95       	ror	r24
- 420:	9c 01       	movw	r18, r24
- 422:	22 0f       	add	r18, r18
- 424:	33 1f       	adc	r19, r19
- 426:	88 0f       	add	r24, r24
- 428:	99 1f       	adc	r25, r25
- 42a:	88 0f       	add	r24, r24
- 42c:	99 1f       	adc	r25, r25
- 42e:	88 0f       	add	r24, r24
- 430:	99 1f       	adc	r25, r25
- 432:	82 0f       	add	r24, r18
- 434:	93 1f       	adc	r25, r19
- 436:	9f 01       	movw	r18, r30
- 438:	28 1b       	sub	r18, r24
- 43a:	39 0b       	sbc	r19, r25
- 43c:	e1 e0       	ldi	r30, 0x01	; 1
- 43e:	f0 e0       	ldi	r31, 0x00	; 0
- 440:	ec 0f       	add	r30, r28
- 442:	fd 1f       	adc	r31, r29
- 444:	e2 0f       	add	r30, r18
- 446:	f3 1f       	adc	r31, r19
- 448:	80 81       	ld	r24, Z
- 44a:	85 bb       	out	0x15, r24	; 21
+ 4d0:	da 01       	movw	r26, r20
+ 4d2:	13 96       	adiw	r26, 0x03	; 3
+ 4d4:	2d 91       	ld	r18, X+
+ 4d6:	3c 91       	ld	r19, X
+ 4d8:	14 97       	sbiw	r26, 0x04	; 4
+ 4da:	a9 e8       	ldi	r26, 0x89	; 137
+ 4dc:	b8 e8       	ldi	r27, 0x88	; 136
+ 4de:	5a d1       	rcall	.+692    	; 0x794 <__umulhisi3>
+ 4e0:	fc 01       	movw	r30, r24
+ 4e2:	f6 95       	lsr	r31
+ 4e4:	e7 95       	ror	r30
+ 4e6:	f2 95       	swap	r31
+ 4e8:	e2 95       	swap	r30
+ 4ea:	ef 70       	andi	r30, 0x0F	; 15
+ 4ec:	ef 27       	eor	r30, r31
+ 4ee:	ff 70       	andi	r31, 0x0F	; 15
+ 4f0:	ef 27       	eor	r30, r31
+ 4f2:	9f 01       	movw	r18, r30
+ 4f4:	ad ec       	ldi	r26, 0xCD	; 205
+ 4f6:	bc ec       	ldi	r27, 0xCC	; 204
+ 4f8:	4d d1       	rcall	.+666    	; 0x794 <__umulhisi3>
+ 4fa:	96 95       	lsr	r25
+ 4fc:	87 95       	ror	r24
+ 4fe:	96 95       	lsr	r25
+ 500:	87 95       	ror	r24
+ 502:	96 95       	lsr	r25
+ 504:	87 95       	ror	r24
+ 506:	9c 01       	movw	r18, r24
+ 508:	22 0f       	add	r18, r18
+ 50a:	33 1f       	adc	r19, r19
+ 50c:	88 0f       	add	r24, r24
+ 50e:	99 1f       	adc	r25, r25
+ 510:	88 0f       	add	r24, r24
+ 512:	99 1f       	adc	r25, r25
+ 514:	88 0f       	add	r24, r24
+ 516:	99 1f       	adc	r25, r25
+ 518:	82 0f       	add	r24, r18
+ 51a:	93 1f       	adc	r25, r19
+ 51c:	9f 01       	movw	r18, r30
+ 51e:	28 1b       	sub	r18, r24
+ 520:	39 0b       	sbc	r19, r25
+ 522:	e1 e0       	ldi	r30, 0x01	; 1
+ 524:	f0 e0       	ldi	r31, 0x00	; 0
+ 526:	ec 0f       	add	r30, r28
+ 528:	fd 1f       	adc	r31, r29
+ 52a:	e2 0f       	add	r30, r18
+ 52c:	f3 1f       	adc	r31, r19
+ 52e:	80 81       	ld	r24, Z
+ 530:	85 bb       	out	0x15, r24	; 21
 			break;
 		}
 		digit_position = pStopwatch->display_count; // digit_position = stopwatch->display_count;
- 44c:	da 01       	movw	r26, r20
- 44e:	8c 91       	ld	r24, X
- 450:	90 e0       	ldi	r25, 0x00	; 0
+ 532:	da 01       	movw	r26, r20
+ 534:	8c 91       	ld	r24, X
+ 536:	90 e0       	ldi	r25, 0x00	; 0
 		digit_position %= 8; // 다음 표시할 자리수를 준비하고 함수 종료
- 452:	87 70       	andi	r24, 0x07	; 7
- 454:	90 78       	andi	r25, 0x80	; 128
- 456:	90 93 11 01 	sts	0x0111, r25	; 0x800111 <digit_position.2124+0x1>
- 45a:	80 93 10 01 	sts	0x0110, r24	; 0x800110 <digit_position.2124>
+ 538:	87 70       	andi	r24, 0x07	; 7
+ 53a:	90 78       	andi	r25, 0x80	; 128
+ 53c:	90 93 13 01 	sts	0x0113, r25	; 0x800113 <digit_position.2141+0x1>
+ 540:	80 93 12 01 	sts	0x0112, r24	; 0x800112 <digit_position.2141>
+ 544:	e7 c0       	rjmp	.+462    	; 0x714 <__LOCK_REGION_LENGTH__+0x314>
 	}	
-}
- 45e:	2b 96       	adiw	r28, 0x0b	; 11
- 460:	0f b6       	in	r0, 0x3f	; 63
- 462:	f8 94       	cli
- 464:	de bf       	out	0x3e, r29	; 62
- 466:	0f be       	out	0x3f, r0	; 63
- 468:	cd bf       	out	0x3d, r28	; 61
- 46a:	df 91       	pop	r29
- 46c:	cf 91       	pop	r28
- 46e:	08 95       	ret
+	else if(pMin2sec_clock->state != CLOCK_IDLE){
+ 546:	fb 01       	movw	r30, r22
+ 548:	85 81       	ldd	r24, Z+5	; 0x05
+ 54a:	88 23       	and	r24, r24
+ 54c:	09 f4       	brne	.+2      	; 0x550 <__LOCK_REGION_LENGTH__+0x150>
+ 54e:	e2 c0       	rjmp	.+452    	; 0x714 <__LOCK_REGION_LENGTH__+0x314>
+		// shows fnd when in clock mode
+		unsigned char fnd_font[] = {~0xc0, ~0xf9, ~0xa4, ~0xb0,~0x99,~0x92,~0x82,~0xd8,~0x80,~0x98,~0x7f};
+ 550:	8b e0       	ldi	r24, 0x0B	; 11
+ 552:	e0 e0       	ldi	r30, 0x00	; 0
+ 554:	f1 e0       	ldi	r31, 0x01	; 1
+ 556:	de 01       	movw	r26, r28
+ 558:	11 96       	adiw	r26, 0x01	; 1
+ 55a:	01 90       	ld	r0, Z+
+ 55c:	0d 92       	st	X+, r0
+ 55e:	8a 95       	dec	r24
+ 560:	e1 f7       	brne	.-8      	; 0x55a <__LOCK_REGION_LENGTH__+0x15a>
 
-00000470 <main>:
+		static int digit_position = 0; // 자리수 선택  변수 0~3 : 0,1,2,3
+
+		switch(digit_position){
+ 562:	80 91 10 01 	lds	r24, 0x0110	; 0x800110 <digit_position.2148>
+ 566:	90 91 11 01 	lds	r25, 0x0111	; 0x800111 <digit_position.2148+0x1>
+ 56a:	82 30       	cpi	r24, 0x02	; 2
+ 56c:	91 05       	cpc	r25, r1
+ 56e:	a9 f1       	breq	.+106    	; 0x5da <__LOCK_REGION_LENGTH__+0x1da>
+ 570:	1c f4       	brge	.+6      	; 0x578 <__LOCK_REGION_LENGTH__+0x178>
+ 572:	89 2b       	or	r24, r25
+ 574:	49 f0       	breq	.+18     	; 0x588 <__LOCK_REGION_LENGTH__+0x188>
+ 576:	c5 c0       	rjmp	.+394    	; 0x702 <__LOCK_REGION_LENGTH__+0x302>
+ 578:	84 30       	cpi	r24, 0x04	; 4
+ 57a:	91 05       	cpc	r25, r1
+ 57c:	09 f4       	brne	.+2      	; 0x580 <__LOCK_REGION_LENGTH__+0x180>
+ 57e:	5a c0       	rjmp	.+180    	; 0x634 <__LOCK_REGION_LENGTH__+0x234>
+ 580:	06 97       	sbiw	r24, 0x06	; 6
+ 582:	09 f4       	brne	.+2      	; 0x586 <__LOCK_REGION_LENGTH__+0x186>
+ 584:	8c c0       	rjmp	.+280    	; 0x69e <__LOCK_REGION_LENGTH__+0x29e>
+ 586:	bd c0       	rjmp	.+378    	; 0x702 <__LOCK_REGION_LENGTH__+0x302>
+			case 0: // 1단위 : 1s마다(0~9)
+			FND_DIGIT_PORT = ~0b10000000; // cathode
+ 588:	8f e7       	ldi	r24, 0x7F	; 127
+ 58a:	88 bb       	out	0x18, r24	; 24
+			FND_DATA_PORT = fnd_font[pMin2sec_clock->sec_count%10];
+ 58c:	db 01       	movw	r26, r22
+ 58e:	13 96       	adiw	r26, 0x03	; 3
+ 590:	4d 91       	ld	r20, X+
+ 592:	5c 91       	ld	r21, X
+ 594:	14 97       	sbiw	r26, 0x04	; 4
+ 596:	9a 01       	movw	r18, r20
+ 598:	ad ec       	ldi	r26, 0xCD	; 205
+ 59a:	bc ec       	ldi	r27, 0xCC	; 204
+ 59c:	fb d0       	rcall	.+502    	; 0x794 <__umulhisi3>
+ 59e:	96 95       	lsr	r25
+ 5a0:	87 95       	ror	r24
+ 5a2:	96 95       	lsr	r25
+ 5a4:	87 95       	ror	r24
+ 5a6:	96 95       	lsr	r25
+ 5a8:	87 95       	ror	r24
+ 5aa:	9c 01       	movw	r18, r24
+ 5ac:	22 0f       	add	r18, r18
+ 5ae:	33 1f       	adc	r19, r19
+ 5b0:	88 0f       	add	r24, r24
+ 5b2:	99 1f       	adc	r25, r25
+ 5b4:	88 0f       	add	r24, r24
+ 5b6:	99 1f       	adc	r25, r25
+ 5b8:	88 0f       	add	r24, r24
+ 5ba:	99 1f       	adc	r25, r25
+ 5bc:	82 0f       	add	r24, r18
+ 5be:	93 1f       	adc	r25, r19
+ 5c0:	fa 01       	movw	r30, r20
+ 5c2:	e8 1b       	sub	r30, r24
+ 5c4:	f9 0b       	sbc	r31, r25
+ 5c6:	cf 01       	movw	r24, r30
+ 5c8:	e1 e0       	ldi	r30, 0x01	; 1
+ 5ca:	f0 e0       	ldi	r31, 0x00	; 0
+ 5cc:	ec 0f       	add	r30, r28
+ 5ce:	fd 1f       	adc	r31, r29
+ 5d0:	e8 0f       	add	r30, r24
+ 5d2:	f9 1f       	adc	r31, r25
+ 5d4:	80 81       	ld	r24, Z
+ 5d6:	85 bb       	out	0x15, r24	; 21
+			break;
+ 5d8:	94 c0       	rjmp	.+296    	; 0x702 <__LOCK_REGION_LENGTH__+0x302>
+			case 2: // 10단위 : 10단위s마다(0~6)
+			FND_DIGIT_PORT = ~0b01000000; // cathode
+ 5da:	8f eb       	ldi	r24, 0xBF	; 191
+			FND_DATA_PORT =fnd_font[pMin2sec_clock->sec_count/10%6];
+ 5dc:	88 bb       	out	0x18, r24	; 24
+ 5de:	db 01       	movw	r26, r22
+ 5e0:	13 96       	adiw	r26, 0x03	; 3
+ 5e2:	2d 91       	ld	r18, X+
+ 5e4:	3c 91       	ld	r19, X
+ 5e6:	14 97       	sbiw	r26, 0x04	; 4
+ 5e8:	ad ec       	ldi	r26, 0xCD	; 205
+ 5ea:	bc ec       	ldi	r27, 0xCC	; 204
+ 5ec:	d3 d0       	rcall	.+422    	; 0x794 <__umulhisi3>
+ 5ee:	ac 01       	movw	r20, r24
+ 5f0:	56 95       	lsr	r21
+ 5f2:	47 95       	ror	r20
+ 5f4:	56 95       	lsr	r21
+ 5f6:	47 95       	ror	r20
+ 5f8:	56 95       	lsr	r21
+ 5fa:	47 95       	ror	r20
+ 5fc:	9a 01       	movw	r18, r20
+ 5fe:	ab ea       	ldi	r26, 0xAB	; 171
+ 600:	ba ea       	ldi	r27, 0xAA	; 170
+ 602:	c8 d0       	rcall	.+400    	; 0x794 <__umulhisi3>
+ 604:	96 95       	lsr	r25
+ 606:	87 95       	ror	r24
+ 608:	96 95       	lsr	r25
+ 60a:	87 95       	ror	r24
+ 60c:	9c 01       	movw	r18, r24
+ 60e:	22 0f       	add	r18, r18
+ 610:	33 1f       	adc	r19, r19
+ 612:	82 0f       	add	r24, r18
+ 614:	93 1f       	adc	r25, r19
+ 616:	88 0f       	add	r24, r24
+ 618:	99 1f       	adc	r25, r25
+ 61a:	fa 01       	movw	r30, r20
+ 61c:	e8 1b       	sub	r30, r24
+ 61e:	f9 0b       	sbc	r31, r25
+ 620:	cf 01       	movw	r24, r30
+ 622:	e1 e0       	ldi	r30, 0x01	; 1
+ 624:	f0 e0       	ldi	r31, 0x00	; 0
+ 626:	ec 0f       	add	r30, r28
+ 628:	fd 1f       	adc	r31, r29
+ 62a:	e8 0f       	add	r30, r24
+ 62c:	f9 1f       	adc	r31, r25
+ 62e:	80 81       	ld	r24, Z
+ 630:	85 bb       	out	0x15, r24	; 21
+			break;
+			case 4: // 100단위 : 분단위=60초마다(0~9)
+			FND_DIGIT_PORT = ~0b00100000; // cathode
+ 632:	67 c0       	rjmp	.+206    	; 0x702 <__LOCK_REGION_LENGTH__+0x302>
+ 634:	8f ed       	ldi	r24, 0xDF	; 223
+			FND_DATA_PORT = fnd_font[pMin2sec_clock->sec_count/60%10];
+ 636:	88 bb       	out	0x18, r24	; 24
+ 638:	db 01       	movw	r26, r22
+ 63a:	13 96       	adiw	r26, 0x03	; 3
+ 63c:	2d 91       	ld	r18, X+
+ 63e:	3c 91       	ld	r19, X
+ 640:	14 97       	sbiw	r26, 0x04	; 4
+ 642:	a9 e8       	ldi	r26, 0x89	; 137
+ 644:	b8 e8       	ldi	r27, 0x88	; 136
+ 646:	a6 d0       	rcall	.+332    	; 0x794 <__umulhisi3>
+ 648:	ac 01       	movw	r20, r24
+ 64a:	56 95       	lsr	r21
+ 64c:	47 95       	ror	r20
+ 64e:	52 95       	swap	r21
+ 650:	42 95       	swap	r20
+ 652:	4f 70       	andi	r20, 0x0F	; 15
+ 654:	45 27       	eor	r20, r21
+ 656:	5f 70       	andi	r21, 0x0F	; 15
+ 658:	45 27       	eor	r20, r21
+ 65a:	9a 01       	movw	r18, r20
+ 65c:	ad ec       	ldi	r26, 0xCD	; 205
+ 65e:	bc ec       	ldi	r27, 0xCC	; 204
+ 660:	99 d0       	rcall	.+306    	; 0x794 <__umulhisi3>
+ 662:	96 95       	lsr	r25
+ 664:	87 95       	ror	r24
+ 666:	96 95       	lsr	r25
+ 668:	87 95       	ror	r24
+ 66a:	96 95       	lsr	r25
+ 66c:	87 95       	ror	r24
+ 66e:	9c 01       	movw	r18, r24
+ 670:	22 0f       	add	r18, r18
+ 672:	33 1f       	adc	r19, r19
+ 674:	88 0f       	add	r24, r24
+ 676:	99 1f       	adc	r25, r25
+ 678:	88 0f       	add	r24, r24
+ 67a:	99 1f       	adc	r25, r25
+ 67c:	88 0f       	add	r24, r24
+ 67e:	99 1f       	adc	r25, r25
+ 680:	82 0f       	add	r24, r18
+ 682:	93 1f       	adc	r25, r19
+ 684:	fa 01       	movw	r30, r20
+ 686:	e8 1b       	sub	r30, r24
+ 688:	f9 0b       	sbc	r31, r25
+ 68a:	cf 01       	movw	r24, r30
+ 68c:	e1 e0       	ldi	r30, 0x01	; 1
+ 68e:	f0 e0       	ldi	r31, 0x00	; 0
+ 690:	ec 0f       	add	r30, r28
+ 692:	fd 1f       	adc	r31, r29
+ 694:	e8 0f       	add	r30, r24
+ 696:	f9 1f       	adc	r31, r25
+ 698:	80 81       	ld	r24, Z
+ 69a:	85 bb       	out	0x15, r24	; 21
+			break;
+ 69c:	32 c0       	rjmp	.+100    	; 0x702 <__LOCK_REGION_LENGTH__+0x302>
+			case 6: // 1000단위 : 10단위분마다=600초마다(0~6)
+			FND_DIGIT_PORT = ~0b00010000; // cathode
+ 69e:	8f ee       	ldi	r24, 0xEF	; 239
+ 6a0:	88 bb       	out	0x18, r24	; 24
+			FND_DATA_PORT = fnd_font[pMin2sec_clock->sec_count/600%6];
+ 6a2:	db 01       	movw	r26, r22
+ 6a4:	13 96       	adiw	r26, 0x03	; 3
+ 6a6:	2d 91       	ld	r18, X+
+ 6a8:	3c 91       	ld	r19, X
+ 6aa:	14 97       	sbiw	r26, 0x04	; 4
+ 6ac:	36 95       	lsr	r19
+ 6ae:	27 95       	ror	r18
+ 6b0:	36 95       	lsr	r19
+ 6b2:	27 95       	ror	r18
+ 6b4:	36 95       	lsr	r19
+ 6b6:	27 95       	ror	r18
+ 6b8:	af e4       	ldi	r26, 0x4F	; 79
+ 6ba:	bb e1       	ldi	r27, 0x1B	; 27
+ 6bc:	6b d0       	rcall	.+214    	; 0x794 <__umulhisi3>
+ 6be:	ac 01       	movw	r20, r24
+ 6c0:	56 95       	lsr	r21
+ 6c2:	47 95       	ror	r20
+ 6c4:	56 95       	lsr	r21
+ 6c6:	47 95       	ror	r20
+ 6c8:	56 95       	lsr	r21
+ 6ca:	47 95       	ror	r20
+ 6cc:	9a 01       	movw	r18, r20
+ 6ce:	ab ea       	ldi	r26, 0xAB	; 171
+ 6d0:	ba ea       	ldi	r27, 0xAA	; 170
+ 6d2:	60 d0       	rcall	.+192    	; 0x794 <__umulhisi3>
+ 6d4:	96 95       	lsr	r25
+ 6d6:	87 95       	ror	r24
+ 6d8:	96 95       	lsr	r25
+ 6da:	87 95       	ror	r24
+ 6dc:	9c 01       	movw	r18, r24
+ 6de:	22 0f       	add	r18, r18
+ 6e0:	33 1f       	adc	r19, r19
+ 6e2:	82 0f       	add	r24, r18
+ 6e4:	93 1f       	adc	r25, r19
+ 6e6:	88 0f       	add	r24, r24
+ 6e8:	99 1f       	adc	r25, r25
+ 6ea:	fa 01       	movw	r30, r20
+ 6ec:	e8 1b       	sub	r30, r24
+ 6ee:	f9 0b       	sbc	r31, r25
+ 6f0:	cf 01       	movw	r24, r30
+ 6f2:	e1 e0       	ldi	r30, 0x01	; 1
+ 6f4:	f0 e0       	ldi	r31, 0x00	; 0
+ 6f6:	ec 0f       	add	r30, r28
+ 6f8:	fd 1f       	adc	r31, r29
+ 6fa:	e8 0f       	add	r30, r24
+ 6fc:	f9 1f       	adc	r31, r25
+ 6fe:	80 81       	ld	r24, Z
+ 700:	85 bb       	out	0x15, r24	; 21
+			break;
+		}
+		digit_position = pMin2sec_clock->display_count; // digit_position = stopwatch->display_count;
+ 702:	d8 01       	movw	r26, r16
+ 704:	8c 91       	ld	r24, X
+ 706:	90 e0       	ldi	r25, 0x00	; 0
+		digit_position %= 8; // 다음 표시할 자리수를 준비하고 함수 종료
+ 708:	87 70       	andi	r24, 0x07	; 7
+ 70a:	90 78       	andi	r25, 0x80	; 128
+ 70c:	90 93 11 01 	sts	0x0111, r25	; 0x800111 <digit_position.2148+0x1>
+ 710:	80 93 10 01 	sts	0x0110, r24	; 0x800110 <digit_position.2148>
+	}
+}
+ 714:	2b 96       	adiw	r28, 0x0b	; 11
+ 716:	0f b6       	in	r0, 0x3f	; 63
+ 718:	f8 94       	cli
+ 71a:	de bf       	out	0x3e, r29	; 62
+ 71c:	0f be       	out	0x3f, r0	; 63
+ 71e:	cd bf       	out	0x3d, r28	; 61
+ 720:	df 91       	pop	r29
+ 722:	cf 91       	pop	r28
+ 724:	1f 91       	pop	r17
+ 726:	0f 91       	pop	r16
+ 728:	08 95       	ret
+
+0000072a <main>:
 	}
 }
 
 
 int main(void)
 {
- 470:	cf 93       	push	r28
- 472:	df 93       	push	r29
- 474:	00 d0       	rcall	.+0      	; 0x476 <main+0x6>
- 476:	00 d0       	rcall	.+0      	; 0x478 <main+0x8>
- 478:	00 d0       	rcall	.+0      	; 0x47a <main+0xa>
- 47a:	cd b7       	in	r28, 0x3d	; 61
- 47c:	de b7       	in	r29, 0x3e	; 62
+ 72a:	cf 93       	push	r28
+ 72c:	df 93       	push	r29
+ 72e:	cd b7       	in	r28, 0x3d	; 61
+ 730:	de b7       	in	r29, 0x3e	; 62
+ 732:	2c 97       	sbiw	r28, 0x0c	; 12
+ 734:	0f b6       	in	r0, 0x3f	; 63
+ 736:	f8 94       	cli
+ 738:	de bf       	out	0x3e, r29	; 62
+ 73a:	0f be       	out	0x3f, r0	; 63
+ 73c:	cd bf       	out	0x3d, r28	; 61
+	/* initialize stopwatch */
 	// display_count = 0;
 	// ms_count = 0;
 	// sec_count = 0;
-	// state = IDLE
+	// state = STOPWATCH_IDLE
     Stopwatch stopwatch = {0,0,0,STOPWATCH_IDLE};
- 47e:	fe 01       	movw	r30, r28
- 480:	31 96       	adiw	r30, 0x01	; 1
- 482:	86 e0       	ldi	r24, 0x06	; 6
- 484:	df 01       	movw	r26, r30
- 486:	1d 92       	st	X+, r1
- 488:	8a 95       	dec	r24
- 48a:	e9 f7       	brne	.-6      	; 0x486 <main+0x16>
+ 73e:	86 e0       	ldi	r24, 0x06	; 6
+ 740:	fe 01       	movw	r30, r28
+ 742:	31 96       	adiw	r30, 0x01	; 1
+ 744:	df 01       	movw	r26, r30
+ 746:	98 2f       	mov	r25, r24
+ 748:	1d 92       	st	X+, r1
+ 74a:	9a 95       	dec	r25
+ 74c:	e9 f7       	brne	.-6      	; 0x748 <main+0x1e>
 	main_stopwatch_ptr = &stopwatch;
- 48c:	f0 93 15 01 	sts	0x0115, r31	; 0x800115 <main_stopwatch_ptr+0x1>
- 490:	e0 93 14 01 	sts	0x0114, r30	; 0x800114 <main_stopwatch_ptr>
+ 74e:	f0 93 17 01 	sts	0x0117, r31	; 0x800117 <main_stopwatch_ptr+0x1>
+ 752:	e0 93 16 01 	sts	0x0116, r30	; 0x800116 <main_stopwatch_ptr>
+	/* initialize min2sec clock */
+	// display_count = 0;
+	// ms_count = 0;
+	// sec_count = 0;
+	// state = CLOCK_IDLE
+	Min2Sec_Clock min2sec_clock = {0,0,0,CLOCK_IDLE};
+ 756:	36 96       	adiw	r30, 0x06	; 6
+ 758:	df 01       	movw	r26, r30
+ 75a:	1d 92       	st	X+, r1
+ 75c:	8a 95       	dec	r24
+ 75e:	e9 f7       	brne	.-6      	; 0x75a <main+0x30>
+	main_min2secClock_ptr = &min2sec_clock;
+ 760:	f0 93 15 01 	sts	0x0115, r31	; 0x800115 <main_min2secClock_ptr+0x1>
+ 764:	e0 93 14 01 	sts	0x0114, r30	; 0x800114 <main_min2secClock_ptr>
 	
 	init_fnd();
- 494:	61 de       	rcall	.-830    	; 0x158 <init_fnd>
+ 768:	f7 dc       	rcall	.-1554   	; 0x158 <init_fnd>
 	init_button();
- 496:	18 de       	rcall	.-976    	; 0xc8 <init_button>
+ 76a:	ae dc       	rcall	.-1700   	; 0xc8 <init_button>
 	init_timer0();
- 498:	66 de       	rcall	.-820    	; 0x166 <init_timer0>
+ 76c:	fc dc       	rcall	.-1544   	; 0x166 <init_timer0>
+ 76e:	be 01       	movw	r22, r28
 	
     while (1) 
     {
-		stop_watch_state(&stopwatch);
- 49a:	ce 01       	movw	r24, r28
- 49c:	01 96       	adiw	r24, 0x01	; 1
- 49e:	97 de       	rcall	.-722    	; 0x1ce <stop_watch_state>
-		fnd_display(&stopwatch);
- 4a0:	ce 01       	movw	r24, r28
- 4a2:	01 96       	adiw	r24, 0x01	; 1
- 4a4:	ef de       	rcall	.-546    	; 0x284 <fnd_display>
- 4a6:	f9 cf       	rjmp	.-14     	; 0x49a <main+0x2a>
+		stop_watch_state(&stopwatch,&min2sec_clock);
+ 770:	69 5f       	subi	r22, 0xF9	; 249
+ 772:	7f 4f       	sbci	r23, 0xFF	; 255
+ 774:	ce 01       	movw	r24, r28
+ 776:	01 96       	adiw	r24, 0x01	; 1
+ 778:	80 dd       	rcall	.-1280   	; 0x27a <stop_watch_state>
+ 77a:	be 01       	movw	r22, r28
+		min2sec_clock_state(&stopwatch,&min2sec_clock);
+ 77c:	69 5f       	subi	r22, 0xF9	; 249
+ 77e:	7f 4f       	sbci	r23, 0xFF	; 255
+ 780:	ce 01       	movw	r24, r28
+ 782:	01 96       	adiw	r24, 0x01	; 1
+ 784:	37 dd       	rcall	.-1426   	; 0x1f4 <min2sec_clock_state>
+ 786:	be 01       	movw	r22, r28
+		fnd_display(&stopwatch,&min2sec_clock);
+ 788:	69 5f       	subi	r22, 0xF9	; 249
+ 78a:	7f 4f       	sbci	r23, 0xFF	; 255
+ 78c:	ce 01       	movw	r24, r28
+ 78e:	01 96       	adiw	r24, 0x01	; 1
+ 790:	e9 dd       	rcall	.-1070   	; 0x364 <fnd_display>
+ 792:	ed cf       	rjmp	.-38     	; 0x76e <main+0x44>
 
-000004a8 <__umulhisi3>:
- 4a8:	a2 9f       	mul	r26, r18
- 4aa:	b0 01       	movw	r22, r0
- 4ac:	b3 9f       	mul	r27, r19
- 4ae:	c0 01       	movw	r24, r0
- 4b0:	a3 9f       	mul	r26, r19
- 4b2:	70 0d       	add	r23, r0
- 4b4:	81 1d       	adc	r24, r1
- 4b6:	11 24       	eor	r1, r1
- 4b8:	91 1d       	adc	r25, r1
- 4ba:	b2 9f       	mul	r27, r18
- 4bc:	70 0d       	add	r23, r0
- 4be:	81 1d       	adc	r24, r1
- 4c0:	11 24       	eor	r1, r1
- 4c2:	91 1d       	adc	r25, r1
- 4c4:	08 95       	ret
+00000794 <__umulhisi3>:
+ 794:	a2 9f       	mul	r26, r18
+ 796:	b0 01       	movw	r22, r0
+ 798:	b3 9f       	mul	r27, r19
+ 79a:	c0 01       	movw	r24, r0
+ 79c:	a3 9f       	mul	r26, r19
+ 79e:	70 0d       	add	r23, r0
+ 7a0:	81 1d       	adc	r24, r1
+ 7a2:	11 24       	eor	r1, r1
+ 7a4:	91 1d       	adc	r25, r1
+ 7a6:	b2 9f       	mul	r27, r18
+ 7a8:	70 0d       	add	r23, r0
+ 7aa:	81 1d       	adc	r24, r1
+ 7ac:	11 24       	eor	r1, r1
+ 7ae:	91 1d       	adc	r25, r1
+ 7b0:	08 95       	ret
 
-000004c6 <_exit>:
- 4c6:	f8 94       	cli
+000007b2 <_exit>:
+ 7b2:	f8 94       	cli
 
-000004c8 <__stop_program>:
- 4c8:	ff cf       	rjmp	.-2      	; 0x4c8 <__stop_program>
+000007b4 <__stop_program>:
+ 7b4:	ff cf       	rjmp	.-2      	; 0x7b4 <__stop_program>

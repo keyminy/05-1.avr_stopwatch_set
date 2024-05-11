@@ -225,7 +225,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x4ca
+.text           0x00000000      0x7b6
  *(.vectors)
  .vectors       0x00000000       0x8c C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega128/avr51/crtatmega128.o
                 0x00000000                __vector_default
@@ -333,24 +333,27 @@ END GROUP
                 0x00000166       0x12 main.o
                 0x00000166                init_timer0
  .text.__vector_16
-                0x00000178       0x56 main.o
+                0x00000178       0x7c main.o
                 0x00000178                __vector_16
+ .text.min2sec_clock_state
+                0x000001f4       0x86 main.o
+                0x000001f4                min2sec_clock_state
  .text.stop_watch_state
-                0x000001ce       0xb6 main.o
-                0x000001ce                stop_watch_state
+                0x0000027a       0xea main.o
+                0x0000027a                stop_watch_state
  .text.fnd_display
-                0x00000284      0x1ec main.o
-                0x00000284                fnd_display
- .text.main     0x00000470       0x38 main.o
-                0x00000470                main
+                0x00000364      0x3c6 main.o
+                0x00000364                fnd_display
+ .text.main     0x0000072a       0x6a main.o
+                0x0000072a                main
  .text.libgcc.mul
-                0x000004a8       0x1e c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_umulhisi3.o)
-                0x000004a8                __umulhisi3
-                0x000004c6                . = ALIGN (0x2)
+                0x00000794       0x1e c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_umulhisi3.o)
+                0x00000794                __umulhisi3
+                0x000007b2                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000004c6        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_exit.o)
-                0x000004c6                _exit
-                0x000004c6                exit
+ .fini9         0x000007b2        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_exit.o)
+                0x000007b2                _exit
+                0x000007b2                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -369,11 +372,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000004c6        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_exit.o)
+ .fini0         0x000007b2        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_exit.o)
  *(.fini0)
-                0x000004ca                _etext = .
+                0x000007b6                _etext = .
 
-.data           0x00800100        0xc load address 0x000004ca
+.data           0x00800100        0xc load address 0x000007b6
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -387,28 +390,30 @@ END GROUP
                 0x0080010c                _edata = .
                 0x0080010c                PROVIDE (__data_end, .)
 
-.bss            0x0080010c        0xa
+.bss            0x0080010c        0xc
                 0x0080010c                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
  .bss.previous_button_status
                 0x0080010c        0x4 button.o
                 0x0080010c                previous_button_status
- .bss.digit_position.2124
+ .bss.digit_position.2148
                 0x00800110        0x2 main.o
+ .bss.digit_position.2141
+                0x00800112        0x2 main.o
  *(COMMON)
- COMMON         0x00800112        0x4 main.o
-                0x00800112                main_min2secClock_ptr
-                0x00800114                main_stopwatch_ptr
-                0x00800116                PROVIDE (__bss_end, .)
-                0x000004ca                __data_load_start = LOADADDR (.data)
-                0x000004d6                __data_load_end = (__data_load_start + SIZEOF (.data))
+ COMMON         0x00800114        0x4 main.o
+                0x00800114                main_min2secClock_ptr
+                0x00800116                main_stopwatch_ptr
+                0x00800118                PROVIDE (__bss_end, .)
+                0x000007b6                __data_load_start = LOADADDR (.data)
+                0x000007c2                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00800116        0x0
+.noinit         0x00800118        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x00800116                _end = .
+                0x00800118                _end = .
                 [!provide]                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
@@ -475,24 +480,24 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000       0x88
+.debug_aranges  0x00000000       0x90
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0x28 button.o
  .debug_aranges
                 0x00000028       0x20 fnd.o
  .debug_aranges
-                0x00000048       0x40 main.o
+                0x00000048       0x48 main.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0xdd5
+.debug_info     0x00000000      0xf26
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x780 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega128/avr51/crtatmega128.o
  .debug_info    0x00000780      0x1b4 button.o
  .debug_info    0x00000934       0x83 fnd.o
- .debug_info    0x000009b7      0x41e main.o
+ .debug_info    0x000009b7      0x56f main.o
 
 .debug_abbrev   0x00000000      0xa2f
  *(.debug_abbrev)
@@ -501,33 +506,33 @@ END GROUP
  .debug_abbrev  0x0000084c       0x51 fnd.o
  .debug_abbrev  0x0000089d      0x192 main.o
 
-.debug_line     0x00000000      0x5de
+.debug_line     0x00000000      0x6e9
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x16a C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega128/avr51/crtatmega128.o
  .debug_line    0x0000016a      0x17f button.o
  .debug_line    0x000002e9       0xaa fnd.o
- .debug_line    0x00000393      0x24b main.o
+ .debug_line    0x00000393      0x356 main.o
 
-.debug_frame    0x00000000      0x108
+.debug_frame    0x00000000      0x140
  *(.debug_frame)
  .debug_frame   0x00000000       0x34 button.o
  .debug_frame   0x00000034       0x24 fnd.o
- .debug_frame   0x00000058       0xb0 main.o
+ .debug_frame   0x00000058       0xe8 main.o
 
-.debug_str      0x00000000      0x5e3
+.debug_str      0x00000000      0x614
  *(.debug_str)
  .debug_str     0x00000000      0x27d C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega128/avr51/crtatmega128.o
  .debug_str     0x0000027d      0x1fb button.o
                                 0x22f (size before relaxing)
  .debug_str     0x00000478       0x14 fnd.o
                                 0x18c (size before relaxing)
- .debug_str     0x0000048c      0x157 main.o
-                                0x30d (size before relaxing)
+ .debug_str     0x0000048c      0x188 main.o
+                                0x33e (size before relaxing)
 
-.debug_loc      0x00000000      0x27d
+.debug_loc      0x00000000      0x439
  *(.debug_loc)
  .debug_loc     0x00000000       0xfe button.o
- .debug_loc     0x000000fe      0x17f main.o
+ .debug_loc     0x000000fe      0x33b main.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -547,11 +552,11 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000       0x58
+.debug_ranges   0x00000000       0x60
  *(.debug_ranges)
  .debug_ranges  0x00000000       0x18 button.o
  .debug_ranges  0x00000018       0x10 fnd.o
- .debug_ranges  0x00000028       0x30 main.o
+ .debug_ranges  0x00000028       0x38 main.o
 
 .debug_macro
  *(.debug_macro)
